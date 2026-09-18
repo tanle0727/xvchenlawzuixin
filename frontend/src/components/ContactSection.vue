@@ -136,7 +136,7 @@ const todayStr = new Date().toISOString().slice(0, 10)
 </script>
 
 <template>
-  <section id="contact" class="relative py-24 lg:py-32 bg-warm-100 overflow-hidden">
+  <section id="contact" class="relative py-16 lg:py-32 bg-warm-100 overflow-hidden">
     <!-- 背景装饰 -->
     <div class="absolute inset-0 -z-0">
       <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-gold-300/8 blur-[120px]" />
@@ -146,7 +146,7 @@ const todayStr = new Date().toISOString().slice(0, 10)
     <div class="relative max-w-6xl mx-auto px-6 lg:px-8">
 
       <!-- 区块标题 -->
-      <div class="text-center mb-16 lg:mb-20 space-y-4">
+      <div class="text-center mb-10 lg:mb-20 space-y-4">
         <p class="text-xs font-medium tracking-[0.3em] text-gold-500 uppercase">Get In Touch</p>
         <h2 class="text-3xl lg:text-5xl font-bold text-brand-950 tracking-tight">预约咨询</h2>
         <p class="text-base text-brand-500 max-w-lg mx-auto leading-relaxed">
@@ -364,7 +364,7 @@ const todayStr = new Date().toISOString().slice(0, 10)
         <!-- 右侧：联系方式 + 二维码（占2列） -->
         <div class="lg:col-span-2 space-y-8">
           <!-- 联系信息卡片 -->
-          <div class="rounded-2xl border border-brand-200/50 bg-white p-7 space-y-6">
+          <div class="rounded-2xl border border-brand-200/50 bg-white p-5 lg:p-7 space-y-6">
             <h3 class="text-lg font-bold text-brand-950">联系方式</h3>
 
             <div class="space-y-5">
@@ -408,7 +408,7 @@ const todayStr = new Date().toISOString().slice(0, 10)
           </div>
 
           <!-- 微信二维码卡片 -->
-          <div class="rounded-2xl border border-brand-200/50 bg-white p-7 flex flex-col items-center gap-4">
+          <div class="rounded-2xl border border-brand-200/50 bg-white p-5 lg:p-7 flex flex-col items-center gap-4">
             <img
               :src="wechatQrcode"
               alt="微信二维码"
