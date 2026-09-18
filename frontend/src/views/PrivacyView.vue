@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <div class="min-h-screen bg-warm-100 pt-24 lg:pt-28">
+  <div class="min-h-screen bg-warm-100 pt-20 lg:pt-28">
     <!-- 返回链接 -->
     <div class="max-w-4xl mx-auto px-6 mb-6">
       <router-link
@@ -20,7 +20,7 @@
 
     <!-- 正文区域 -->
     <main class="max-w-4xl mx-auto px-6 pb-12 lg:pb-16">
-      <article class="bg-white rounded-2xl shadow-sm border border-brand-200/50 p-8 lg:p-12 space-y-8 text-brand-800 leading-relaxed">
+      <article class="bg-white rounded-2xl shadow-sm border border-brand-200/50 p-5 lg:p-12 space-y-8 text-brand-800 leading-relaxed">
 
         <!-- 标题 -->
         <header class="text-center space-y-3 pb-8 border-b border-brand-100">
@@ -37,24 +37,24 @@
         <section class="space-y-4">
           <h2 class="text-lg font-bold text-brand-950">一、我们收集的个人信息</h2>
           <p>在您使用本网站预约咨询功能时，我们会收集以下信息：</p>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm border-collapse">
+          <div class="overflow-x-auto -mx-2 px-2">
+            <table class="w-full min-w-[480px] text-sm border-collapse">
               <thead>
                 <tr class="bg-brand-50 text-left">
-                  <th class="px-4 py-2.5 font-semibold text-brand-900 border-b border-brand-200">字段</th>
-                  <th class="px-4 py-2.5 font-semibold text-brand-900 border-b border-brand-200">是否必填</th>
-                  <th class="px-4 py-2.5 font-semibold text-brand-900 border-b border-brand-200">用途</th>
+                  <th class="px-3 py-2.5 font-semibold text-brand-900 border-b border-brand-200 whitespace-nowrap">字段</th>
+                  <th class="px-3 py-2.5 font-semibold text-brand-900 border-b border-brand-200 whitespace-nowrap">是否必填</th>
+                  <th class="px-3 py-2.5 font-semibold text-brand-900 border-b border-brand-200">用途</th>
                 </tr>
               </thead>
               <tbody class="text-brand-700">
-                <tr><td class="px-4 py-2 border-b border-brand-100">客户姓名</td><td class="px-4 py-2 border-b border-brand-100">是</td><td class="px-4 py-2 border-b border-brand-100">识别委托人身份，用于回电联系</td></tr>
-                <tr><td class="px-4 py-2 border-b border-brand-100">联系电话</td><td class="px-4 py-2 border-b border-brand-100">是</td><td class="px-4 py-2 border-b border-brand-100">与您取得联系、确认预约事宜</td></tr>
-                <tr><td class="px-4 py-2 border-b border-brand-100">职务</td><td class="px-4 py-2 border-b border-brand-100">否</td><td class="px-4 py-2 border-b border-brand-100">了解您的角色背景，便于提供更精准的法律服务</td></tr>
-                <tr><td class="px-4 py-2 border-b border-brand-100">企业名称</td><td class="px-4 py-2 border-b border-brand-100">否</td><td class="px-4 py-2 border-b border-brand-100">了解企业主体信息，便于开展尽职调查或利益冲突检索</td></tr>
-                <tr><td class="px-4 py-2 border-b border-brand-100">业务需求类型</td><td class="px-4 py-2 border-b border-brand-100">是</td><td class="px-4 py-2 border-b border-brand-100">分配合适的律师团队及专业领域</td></tr>
-                <tr><td class="px-4 py-2 border-b border-brand-100">期望预约日期</td><td class="px-4 py-2 border-b border-brand-100">否</td><td class="px-4 py-2 border-b border-brand-100">协调安排咨询时间</td></tr>
-                <tr><td class="px-4 py-2 border-b border-brand-100">诉求简述</td><td class="px-4 py-2 border-b border-brand-100">否</td><td class="px-4 py-2 border-b border-brand-100">初步了解您的法律需求，提高沟通效率</td></tr>
-                <tr><td class="px-4 py-2">紧急程度</td><td class="px-4 py-2">否</td><td class="px-4 py-2">评估事项优先级，合理安排响应时间</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">客户姓名</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">是</td><td class="px-3 py-2 border-b border-brand-100">识别委托人身份，用于回电联系</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">联系电话</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">是</td><td class="px-3 py-2 border-b border-brand-100">与您取得联系、确认预约事宜</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">职务</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">否</td><td class="px-3 py-2 border-b border-brand-100">了解您的角色背景，便于提供更精准的法律服务</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">企业名称</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">否</td><td class="px-3 py-2 border-b border-brand-100">了解企业主体信息，便于开展尽职调查或利益冲突检索</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">业务需求类型</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">是</td><td class="px-3 py-2 border-b border-brand-100">分配合适的律师团队及专业领域</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">期望预约日期</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">否</td><td class="px-3 py-2 border-b border-brand-100">协调安排咨询时间</td></tr>
+                <tr><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">诉求简述</td><td class="px-3 py-2 border-b border-brand-100 whitespace-nowrap">否</td><td class="px-3 py-2 border-b border-brand-100">初步了解您的法律需求，提高沟通效率</td></tr>
+                <tr><td class="px-3 py-2 whitespace-nowrap">紧急程度</td><td class="px-3 py-2 whitespace-nowrap">否</td><td class="px-3 py-2">评估事项优先级，合理安排响应时间</td></tr>
               </tbody>
             </table>
           </div>
