@@ -145,14 +145,32 @@
 ---
 
 ### ✅ 阶段八：安全加固与优化（2026-09-19）
-- [x] 预约咨询接口限流（ConsultationThrottle：同 IP 每分钟5次/每天20次）
+
+#### 第一批：严重级
+- [x] SECRET_KEY 外部化（python-decouple + .env，移除硬编码密钥）
+- [x] DEBUG / ALLOWED_HOSTS 从环境变量读取（上线时改 .env 即可）
+- [x] 预约咨询接口限流（ConsultationThrottle：同 IP 每分钟5次）
 - [x] Honeypot 防机器人（website_url 隐藏字段，填入即拒绝）
-- [x] 前端响应拦截器（429/403/500/网络错误统一提示）
-- [x] CSRF 防护配置（xsrfCookieName/xsrfHeaderName）
-- [x] 后台手机号脱敏显示（138****8000）
-- [x] 前端输入 maxlength 限制（姓名15字、职务15字、公司30字、描述500字）
-- [x] CasesSection.vue 加载失败提示
-- [x] requirements.txt 依赖清单
+- [x] Serializer 字段长度校验（姓名≤15、职务≤15、公司≤30、案情≤500）
+- [x] 前端 maxlength 限制 + honeypot 隐藏字段
+- [x] db.sqlite3 文件权限收紧为 600
+- [x] Admin 后台手机号脱敏显示（138****8000）
+- [x] API 无 PII 泄露确认（仅 POST 写入，无 GET 查询）
+
+#### 第二批：高危级
+- [x] 安全响应头（XSS_FILTER / NOSNIFF / X_FRAME_OPTIONS=DENY / HTTPONLY Cookie）
+- [x] SSL 相关配置（HSTS / SSL_REDIRECT / COOKIE_SECURE，仅 DEBUG=False 时启用）
+- [x] 隐私保护政策页面（/privacy，8章节完整，符合《个人信息保护法》）
+- [x] 表单隐私政策链接修复（href="#" → router-link to="/privacy"）
+- [x] axios CSRF 配置（xsrfCookieName / xsrfHeaderName）
+- [x] 响应拦截器统一错误提示（429/403/5xx/网络错误）
+- [x] CasesSection.vue 加载失败状态区分（不再静默吞错）
+- [x] 虚拟环境精简（187包 → 9包，减少95%攻击面）
+- [x] requirements.txt 精确版本依赖清单
+
+#### 依赖安全扫描
+- [x] pip-audit：Python 依赖 0 漏洞（pip 已升级修复）
+- [x] npm audit：前端依赖 0 漏洞
 
 ---
 
@@ -166,6 +184,7 @@
 ## Git 提交历史
 
 ```
+3b6a876 更新 progress.md：补充安全加固提交记录，移除过时提示
 16fc1d1 新增业务领域后台管理 + 安全加固（限流/防机器人/CSRF/脱敏）
 5edefec 完成后端数据模型、REST API、前后端联调（预约咨询+代表案例+服务客户）
 f3501a8 完成许宸律师名片页前端开发（Tailwind CSS + 五模块 + UI优化）
