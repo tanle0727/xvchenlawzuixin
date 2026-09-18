@@ -29,7 +29,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section id="practice" class="relative py-24 lg:py-32 bg-navy-900 overflow-hidden">
+  <section id="practice" class="relative py-16 lg:py-32 bg-navy-900 overflow-hidden">
     <!-- 背景装饰 -->
     <div class="absolute inset-0 -z-0">
       <div class="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-gold-500/5 blur-[120px]" />
@@ -39,7 +39,7 @@ onMounted(async () => {
     <div class="relative max-w-6xl mx-auto px-6 lg:px-8">
 
       <!-- 区块标题 -->
-      <div class="text-center mb-16 lg:mb-20 space-y-4">
+      <div class="text-center mb-10 lg:mb-20 space-y-4">
         <p class="text-xs font-medium tracking-[0.3em] text-gold-400 uppercase">Practice Areas</p>
         <h2 class="text-3xl lg:text-5xl font-bold text-white tracking-tight">业务领域</h2>
         <div class="w-12 h-px bg-gold-500/50 mx-auto mt-6" />
@@ -47,7 +47,7 @@ onMounted(async () => {
 
       <!-- 加载骨架屏 -->
       <div v-if="loading" class="grid lg:grid-cols-2 gap-8 lg:gap-10">
-        <div v-for="n in 2" :key="n" class="rounded-2xl border border-white/10 bg-white/5 p-8 lg:p-10 animate-pulse">
+        <div v-for="n in 2" :key="n" class="rounded-2xl border border-white/10 bg-white/5 p-6 lg:p-10 animate-pulse">
           <div class="flex items-center gap-4 mb-8">
             <div class="w-11 h-11 rounded-xl bg-white/10" />
             <div class="space-y-2">
@@ -72,7 +72,7 @@ onMounted(async () => {
         <div
           v-for="group in groups"
           :key="group.category"
-          class="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8 lg:p-10 hover:border-gold-400/30 hover:bg-white/8 transition-all duration-500"
+          class="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-6 lg:p-10 hover:border-gold-400/30 hover:bg-white/8 transition-all duration-500"
         >
           <div class="absolute top-0 right-0 w-32 h-32 bg-gold-400/5 rounded-full blur-[50px] group-hover:bg-gold-400/10 transition-all duration-700" />
 
@@ -94,7 +94,7 @@ onMounted(async () => {
             <span
               v-for="(item, index) in group.items"
               :key="index"
-              class="inline-flex items-center px-4 py-2 rounded-lg bg-white/5 border border-white/8 text-sm text-brand-300 hover:bg-gold-500/10 hover:border-gold-400/20 hover:text-gold-300 transition-all duration-300 cursor-default"
+              class="inline-flex items-center px-3 lg:px-4 py-2 rounded-lg bg-white/5 border border-white/8 text-sm text-brand-300 hover:bg-gold-500/10 hover:border-gold-400/20 hover:text-gold-300 transition-all duration-300 cursor-default max-w-full"
             >
               {{ item }}
             </span>
