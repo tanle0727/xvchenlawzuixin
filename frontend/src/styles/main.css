@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* ============================================
+   许宸律师名片 — 全局设计令牌 v2
+   深空灰 + 黑金 + 藏青蓝 + 暖白 多色层次
+   ============================================ */
+
+@theme {
+  /* 主色板 — 深空灰 */
+  --color-brand-950: #0c0c0e;
+  --color-brand-900: #1a1a1f;
+  --color-brand-800: #2a2a32;
+  --color-brand-700: #3d3d48;
+  --color-brand-600: #555562;
+  --color-brand-500: #71717e;
+  --color-brand-400: #9e9eab;
+  --color-brand-300: #c8c8d0;
+  --color-brand-200: #e2e2e8;
+  --color-brand-100: #f0f0f4;
+  --color-brand-50:  #f8f8fb;
+
+  /* 金色点缀 — 更饱和 */
+  --color-gold-600: #9a7b3a;
+  --color-gold-500: #c4993f;
+  --color-gold-400: #dab45e;
+  --color-gold-300: #ecd08a;
+  --color-gold-200: #f5e6be;
+
+  /* 藏青蓝 — 用于深色区块背景 */
+  --color-navy-900: #0f1729;
+  --color-navy-800: #162038;
+  --color-navy-700: #1e2d4d;
+  --color-navy-600: #2a3f66;
+
+  /* 暖白/米色 — 用于柔和背景 */
+  --color-warm-100: #faf8f5;
+  --color-warm-200: #f3efe8;
+  --color-warm-300: #e8e0d4;
+
+  /* 字体栈 */
+  --font-sans: "SF Pro Display", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+}
+
+/* 全局基础样式 */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-brand-900);
+  background-color: #ffffff;
+}
+
+/* 毛玻璃工具类 */
+.glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.78);
+}
+
+.glass-dark {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background-color: rgba(15, 23, 41, 0.85);
+}
+
+/* 隐藏滚动条 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
