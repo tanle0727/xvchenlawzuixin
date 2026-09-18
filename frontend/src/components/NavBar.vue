@@ -57,7 +57,7 @@ const closeMobile = () => {
 
         <!-- 移动端汉堡按钮 -->
         <button
-          class="md:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+          class="md:hidden w-11 h-11 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
           @click="toggleMobile"
           aria-label="菜单"
           :aria-expanded="mobileMenuOpen"
