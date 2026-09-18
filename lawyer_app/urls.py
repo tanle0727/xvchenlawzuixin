@@ -5,4 +5,5 @@ urlpatterns = [
     path('consultation/', views.create_consultation, name='create-consultation'),
     path('cases/', views.list_cases, name='list-cases'),
     path('clients/', views.list_clients, name='list-clients'),
+    path('practice-areas/', views.list_practice_areas, name='list-practice-areas'),
 ]

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dq@joekx^e7f%k&sl(9k(lasnz&57w)l@k6#kt_l9e5@*&!cig'
+# 从 .env 文件读取，不再硬编码在代码中
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
 
 
 # Application definition
@@ -149,6 +151,10 @@ REST_FRAMEWORK = {
     'DATE_FORMAT': '%Y-%m-%d',
     'TIME_FORMAT': '%H:%M',
     'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
+    # 限流配置：防止 API 被恶意刷请求
+    'DEFAULT_THROTTLE_RATES': {
+        'consultation': '5/min',   # 预约接口：每分钟最多5次
+    },
 }
 
 # ===== SimpleUI 配置 =====
@@ -160,3 +166,18 @@ SIMPLEUI_CONFIG = {
     'system_keep': True,
 }
 SIMPLEUI_ANALYSIS = False
+
+# ===== 安全响应头配置 =====
+# 以下配置在所有环境下生效
+SECURE_BROWSER_XSS_FILTER = True          # 启用浏览器 XSS 过滤
+SECURE_CONTENT_TYPE_NOSNIFF = True        # 禁止浏览器 MIME 类型嗅探
+X_FRAME_OPTIONS = 'DENY'                  # 禁止任何网站 iframe 嵌入本页面
+SESSION_COOKIE_HTTPONLY = True             # JS 无法读取 Session Cookie
+CSRF_COOKIE_HTTPONLY = True                # JS 无法读取 CSRF Cookie
+
+# 以下配置仅在 HTTPS 生产环境下生效（DEBUG=False 时启用）
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000         # HSTS 有效期一年
+    SECURE_SSL_REDIRECT = True             # HTTP 自动跳转 HTTPS
+    SESSION_COOKIE_SECURE = True           # Session Cookie 仅通过 HTTPS 传输
+    CSRF_COOKIE_SECURE = True              # CSRF Cookie 仅通过 HTTPS 传输

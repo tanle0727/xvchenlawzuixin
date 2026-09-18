@@ -14,6 +14,7 @@ const form = ref({
   case_description: '',
   urgency_level: '一般',
   agreePrivacy: false,
+  website_url: '',  // honeypot 隐藏字段，防机器人
 })
 
 // ===== 业务类型选项（非诉 + 诉讼，与后端 choices 完全一致） =====
@@ -94,6 +95,7 @@ const handleSubmit = async () => {
       appointment_date: form.value.appointment_date,
       case_description: form.value.case_description,
       urgency_level: form.value.urgency_level,
+      website_url: form.value.website_url,  // honeypot
     })
     submitted.value = true
   } catch (err: any) {
@@ -120,6 +122,7 @@ const resetForm = () => {
     case_description: '',
     urgency_level: '一般',
     agreePrivacy: false,
+    website_url: '',
   }
   phoneError.value = ''
   nameError.value = ''
@@ -180,6 +183,11 @@ const todayStr = new Date().toISOString().slice(0, 10)
           @submit.prevent="handleSubmit"
           class="lg:col-span-3 space-y-5"
         >
+          <!-- Honeypot 隐藏字段：防机器人，正常用户看不到 -->
+          <div style="position:absolute;left:-9999px;opacity:0;height:0;width:0;overflow:hidden;" aria-hidden="true">
+            <input v-model="form.website_url" type="text" name="website_url" tabindex="-1" autocomplete="off" />
+          </div>
+
           <!-- 第一行：姓名 + 职务 -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div class="space-y-1.5">
@@ -190,7 +198,8 @@ const todayStr = new Date().toISOString().slice(0, 10)
               <input
                 v-model="form.name"
                 type="text"
-                placeholder="请输入姓名"
+                maxlength="15"
+                placeholder="请输入姓名（最多15字）"
                 class="w-full px-4 py-3 rounded-xl border bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 transition-all duration-300"
                 :class="nameError ? 'border-red-300 focus:border-red-400' : 'border-brand-200/80 focus:border-gold-400'"
                 @blur="validateName"
@@ -205,7 +214,8 @@ const todayStr = new Date().toISOString().slice(0, 10)
               <input
                 v-model="form.position"
                 type="text"
-                placeholder="如：法务总监"
+                maxlength="15"
+                placeholder="如：法务总监（最多15字）"
                 class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300"
               />
             </div>
@@ -221,7 +231,8 @@ const todayStr = new Date().toISOString().slice(0, 10)
               <input
                 v-model="form.company_name"
                 type="text"
-                placeholder="企业全称"
+                maxlength="30"
+                placeholder="企业全称（最多30字）"
                 class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300"
               />
             </div>
@@ -292,7 +303,8 @@ const todayStr = new Date().toISOString().slice(0, 10)
             <textarea
               v-model="form.case_description"
               rows="3"
-              placeholder="请简要描述您的法律需求..."
+              maxlength="500"
+              placeholder="请简要描述您的法律需求（最多500字）..."
               class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300 resize-none"
             />
           </div>
@@ -326,7 +338,7 @@ const todayStr = new Date().toISOString().slice(0, 10)
                 </div>
               </div>
               <span class="text-sm text-brand-500 leading-relaxed group-hover:text-brand-700 transition-colors">
-                同意<a href="#" class="text-gold-500 hover:text-gold-400 underline underline-offset-2">《隐私保护政策》</a>
+                同意<router-link to="/privacy" class="text-gold-500 hover:text-gold-400 underline underline-offset-2">《隐私保护政策》</router-link>
               </span>
             </label>
           </div>

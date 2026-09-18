@@ -1,0 +1,9 @@
+# 律师介绍系统 — Python 依赖清单
+# 仅包含项目实际使用的包，定期用 pip-audit 检查安全漏洞
+
+Django==6.1
+django-simpleui==2026.1.13
+djangorestframework==3.18.0
+django-cors-headers==4.9.0
+python-decouple==3.8
+Pillow==12.3.0

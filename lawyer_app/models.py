@@ -129,3 +129,28 @@ class ServiceClient(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PracticeArea(models.Model):
+    """业务领域表"""
+
+    CATEGORY_CHOICES = [
+        ('non_litigation', '非诉业务'),
+        ('litigation', '诉讼业务'),
+    ]
+
+    name = models.CharField("业务名称", max_length=100)
+    category = models.CharField("业务分类", max_length=20, choices=CATEGORY_CHOICES, default='non_litigation')
+    sort_order = models.IntegerField("排序优先级", default=0, help_text="数字越小越靠前")
+    is_active = models.BooleanField("是否展示", default=True)
+    created_at = models.DateTimeField("创建时间", auto_now_add=True)
+    updated_at = models.DateTimeField("更新时间", auto_now=True)
+
+    class Meta:
+        db_table = "practice_area"
+        verbose_name = "业务领域"
+        verbose_name_plural = "业务领域表"
+        ordering = ['category', 'sort_order', '-created_at']
+
+    def __str__(self):
+        return f"[{self.get_category_display()}] {self.name}"

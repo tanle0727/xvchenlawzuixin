@@ -17,6 +17,8 @@
 | 后端 REST API 开发 | ✅ 已完成 | 2026-09-19 |
 | 前后端联调（预约咨询） | ✅ 已完成 | 2026-09-19 |
 | 前后端联调（案例+客户） | ✅ 已完成 | 2026-09-19 |
+| 前后端联调（业务领域） | ✅ 已完成 | 2026-09-19 |
+| 安全加固与优化 | ✅ 已完成 | 2026-09-19 |
 | 测试与部署 | ⬜ 未开始 | — |
 
 ---
@@ -56,40 +58,13 @@
 - [x] 自定义设计令牌：深空灰 + 藏青蓝 + 饱和金色 + 暖白米色 四色体系
 - [x] 毛玻璃工具类（glass / glass-dark）
 
-#### Step 1：全局 Layout
-- [x] 安装 tailwindcss + @tailwindcss/vite
-- [x] 全局设计令牌（src/styles/main.css）
-- [x] 顶部导航栏（NavBar.vue）— 藏青深色底 + 白色文字 + 滚动加深效果
-- [x] 底部版权栏（FooterBar.vue）— 藏青深色底栏
-- [x] HomeView.vue 四个 section 锚点占位
-
-#### Step 2：Hero 首屏破冰模块
-- [x] 姓名（许宸）、中英文头衔（Jenny Xu · 资深律师）
-- [x] 教育背景（中国政法大学 硕士）
-- [x] 过往履历（环球律所、通力律所北京分所）
-- [x] 数据看板（6+年 / 50+家 / 100+个）
-- [x] 个人形象照（从用户提供照片导入，响应式变量绑定）
-- [x] 多层渐变背景（暖米金 → 淡蓝灰 + 金色/藏青光斑）
-- [x] CTA 按钮（预约咨询 / 了解业务领域）
-
-#### Step 3：双轨业务领域模块
-- [x] 藏青深色背景（navy-900）+ 毛玻璃卡片
-- [x] 非诉业务 6 项：公司治理、私募股权投融资、国资交易、基金管理人募投管退全流程合规法律服务、交易架构设计、保险资管
-- [x] 诉讼业务 8 项：合同纠纷、侵权纠纷、劳动争议、公司股权纠纷、金融借款纠纷、建设工程纠纷、知识产权纠纷、不正当竞争纠纷
-- [x] 标签药丸式布局，hover 金色高亮
-
-#### Step 4：核心战绩与客户矩阵模块
-- [x] 代表案例 5 个（网格布局，桌面端 3 列）
-- [x] 客户 Logo 墙 20 家（从 PPT Slide 7 提取真实 Logo 图片）
-- [x] Logo 默认灰度半透明，hover 恢复彩色
-
-#### Step 5：B端商业线索收集表单
-- [x] 双栏布局（左3列表单 + 右2列联系方式）
-- [x] 表单字段 + 校验 + 提交成功状态
-- [x] 右侧联系方式卡片 + 微信二维码
-
-#### UI 整体优化
-- [x] 色彩体系升级、背景交替节奏、导航栏深色化、首屏多层渐变等
+#### Step 1~5 + UI 优化
+- [x] 全局 Layout（NavBar + FooterBar）
+- [x] Hero 首屏破冰模块
+- [x] 双轨业务领域模块（非诉6项 + 诉讼8项）
+- [x] 核心战绩与客户矩阵模块（5案例 + 20客户Logo墙）
+- [x] B端商业线索收集表单（双栏布局 + 校验 + 成功状态）
+- [x] UI 整体优化（色彩体系、背景交替、导航深色化等）
 
 ---
 
@@ -101,82 +76,87 @@
 | CustomerConsultation | customer_consultation | 客户预约咨询信息表 |
 | RepresentativeCase | representative_case | 代表案例表 |
 | ServiceClient | service_client | 服务客户Logo墙表 |
+| PracticeArea | practice_area | 业务领域表 |
 
 #### CustomerConsultation 字段
 - [x] name（客户姓名）、position（职务）、company_name（企业名称）、phone（联系电话）
 - [x] appointment_date（期望预约日期）
 - [x] case_category（业务类型，15项：6非诉+8诉讼+其他，与前端完全统一）
 - [x] case_description（诉求简述）、urgency_level（紧急程度：一般/紧急）
-- [x] status（处理状态：待确认/已确认/已完成/已取消）、admin_remark（后台备注）
-- [x] source（预约来源）、created_at、updated_at
+- [x] status（处理状态）、admin_remark（后台备注）、source（预约来源）
 
 #### RepresentativeCase 字段
-- [x] title（案例标题）、role（律师角色）、amount（金额标签）、description（案例描述）
-- [x] sort_order（排序优先级，数字越小越靠前）
-- [x] is_active（是否展示，上下架开关）
+- [x] title、role、amount、description、sort_order、is_active
 
 #### ServiceClient 字段
-- [x] name（客户名称）、logo（Logo图片，ImageField 上传到 media/logos/）
-- [x] sort_order（排序优先级）
-- [x] is_active（是否展示）
+- [x] name、logo（ImageField → media/logos/）、sort_order、is_active
+
+#### PracticeArea 字段
+- [x] name（业务名称）、category（分类：non_litigation/litigation）、sort_order、is_active
 
 #### 数据库迁移
 - [x] 0001_initial.py — CustomerConsultation
-- [x] 0002 — 精简字段（去掉 email/gender/appointment_time 等前端不需要的字段，新增 position/company_name）
+- [x] 0002 — 精简字段 + 新增 position/company_name
 - [x] 0003 — RepresentativeCase + ServiceClient
+- [x] 0004 — PracticeArea
 
 ---
 
 ### ✅ 阶段六：后端 REST API 开发（2026-09-19）
 
 #### 依赖安装
-- [x] djangorestframework
-- [x] django-cors-headers
-- [x] Pillow（ImageField 支持）
+- [x] djangorestframework、django-cors-headers、Pillow
 
 #### Django 配置
-- [x] INSTALLED_APPS 添加 rest_framework、corsheaders
-- [x] MIDDLEWARE 添加 CorsMiddleware
-- [x] CORS_ALLOWED_ORIGINS 允许 localhost:5173
-- [x] REST_FRAMEWORK 配置（JSONRenderer、日期格式）
-- [x] MEDIA_URL / MEDIA_ROOT 配置
-- [x] 开发环境 media 文件 URL 路由
+- [x] INSTALLED_APPS、MIDDLEWARE、CORS、REST_FRAMEWORK、MEDIA 配置
 
 #### API 接口
 | 方法 | 路径 | 用途 |
 |------|------|------|
-| POST | /api/consultation/ | 提交预约咨询（前端→后端写入） |
+| POST | /api/consultation/ | 提交预约咨询（含限流 + honeypot 防机器人） |
 | GET | /api/cases/ | 获取代表案例列表（仅 is_active=True） |
-| GET | /api/clients/ | 获取服务客户列表（仅 is_active=True，logo 返回完整 URL） |
+| GET | /api/clients/ | 获取服务客户列表（logo 返回完整 URL） |
+| GET | /api/practice-areas/ | 获取业务领域列表（按非诉/诉讼分组） |
 
 #### Admin 后台
-- [x] CustomerConsultationAdmin — 列表展示、筛选、搜索
+- [x] CustomerConsultationAdmin — 手机号脱敏显示、筛选、搜索
 - [x] RepresentativeCaseAdmin — 列表可直接编辑排序号和上下架
-- [x] ServiceClientAdmin — 列表可直接编辑排序号和上下架，Logo 缩略图预览
+- [x] ServiceClientAdmin — Logo 缩略图预览、可直接编辑排序和上下架
+- [x] PracticeAreaAdmin — 按分类筛选、可直接编辑排序和上下架
 
 ---
 
 ### ✅ 阶段七：前后端联调（2026-09-19）
 
 #### 预约咨询联调
-- [x] 安装 axios
-- [x] 创建 src/api/consultation.ts — 封装 submitConsultation()
-- [x] Vite 代理配置（/api → Django 8000）
-- [x] ContactSection.vue 接入真实 API（async handleSubmit + loading 状态 + 错误提示）
-- [x] 前后端字段完全统一（name/position/company_name/phone/case_category/appointment_date/case_description/urgency_level）
-- [x] 姓名与职务分开填写
-- [x] 业务类型下拉分两组（非诉业务/诉讼业务），共 15 项，与后端 choices 一致
-- [x] 期望预约日期选择器（date input，min=今天）
+- [x] axios + Vite 代理 + ContactSection.vue 接入真实 API
+- [x] 前后端字段完全统一，姓名与职务分开填写
+- [x] 业务类型下拉分两组（非诉/诉讼），共 15 项
+- [x] 期望预约日期选择器、honeypot 防机器人隐藏字段
 
 #### 案例 + 客户联调
-- [x] API 函数 getCases() / getClients()
-- [x] CasesSection.vue 改为 onMounted 从 API 拉取数据，替换硬编码
-- [x] Logo 图片 src 使用后端返回的完整 URL
-- [x] 预置初始数据：5 条案例 + 20 个客户名称（Logo 需通过后台上传）
+- [x] CasesSection.vue 从 API 拉取数据，替换硬编码
+- [x] 预置初始数据：5+1 条案例 + 20+1 个客户
+
+#### 业务领域联调
+- [x] PracticeSection.vue 从 API 拉取数据，按分类动态渲染
+- [x] 预置初始数据：6 非诉 + 8 诉讼 = 14 条
 
 ---
 
-### ⬜ 阶段八：测试与部署
+### ✅ 阶段八：安全加固与优化（2026-09-19）
+- [x] 预约咨询接口限流（ConsultationThrottle：同 IP 每分钟5次/每天20次）
+- [x] Honeypot 防机器人（website_url 隐藏字段，填入即拒绝）
+- [x] 前端响应拦截器（429/403/500/网络错误统一提示）
+- [x] CSRF 防护配置（xsrfCookieName/xsrfHeaderName）
+- [x] 后台手机号脱敏显示（138****8000）
+- [x] 前端输入 maxlength 限制（姓名15字、职务15字、公司30字、描述500字）
+- [x] CasesSection.vue 加载失败提示
+- [x] requirements.txt 依赖清单
+
+---
+
+### ⬜ 阶段九：测试与部署
 - [ ] 功能测试
 - [ ] 生产构建（npm run build）
 - [ ] 部署配置
@@ -186,6 +166,7 @@
 ## Git 提交历史
 
 ```
+5edefec 完成后端数据模型、REST API、前后端联调（预约咨询+代表案例+服务客户）
 f3501a8 完成许宸律师名片页前端开发（Tailwind CSS + 五模块 + UI优化）
 e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 503ad62 完成 Vue 前端集成
@@ -193,12 +174,16 @@ e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 7477c87 项目初始化
 ```
 
-> ⚠️ 阶段五~七的代码尚未 git commit，待用户确认后提交。
+> ⚠️ 业务领域联调 + 安全加固的代码尚未 git commit，待用户确认后提交。
 
 ---
 
 ## 待办事项 / 备注
 
+### 🔜 二期功能规划
+- [ ] 诉求简述一键填入模板（按业务类型提供预设文案，用户点击后自动填充到输入框）
+
+### 📋 日常备注
 - 服务客户的 Logo 图片需通过 Django Admin 后台逐个上传（media/logos/ 目录）
 - 8 家客户（金融街资本、太平资本、中邮人寿、华安人寿、国寿投资、国民养老、安联资管、美沃斯）在 PPT 中无独立 Logo 图，未录入
 - DB Browser for SQLite 打开 db.sqlite3 会导致 Django 报 "database is locked"，使用时需关闭

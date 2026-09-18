@@ -4,14 +4,19 @@ import { getCases, getClients, type CaseItem, type ClientItem } from '@/api/cons
 
 const cases = ref<CaseItem[]>([])
 const clients = ref<ClientItem[]>([])
+const loadError = ref(false)
 
 onMounted(async () => {
-  const [casesData, clientsData] = await Promise.all([
-    getCases().catch(() => [] as CaseItem[]),
-    getClients().catch(() => [] as ClientItem[]),
-  ])
-  cases.value = casesData
-  clients.value = clientsData
+  try {
+    const [casesData, clientsData] = await Promise.all([
+      getCases(),
+      getClients(),
+    ])
+    cases.value = casesData
+    clients.value = clientsData
+  } catch {
+    loadError.value = true
+  }
 })
 </script>
 
@@ -26,8 +31,13 @@ onMounted(async () => {
         <div class="w-12 h-px bg-gold-500/50 mx-auto mt-6" />
       </div>
 
+      <!-- ===== 加载失败提示 ===== -->
+      <div v-if="loadError" class="text-center py-12">
+        <p class="text-brand-500 text-sm">数据加载失败，请刷新页面重试</p>
+      </div>
+
       <!-- ===== 案例网格卡片 ===== -->
-      <div v-if="cases.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-else-if="cases.length" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="item in cases"
           :key="item.id"

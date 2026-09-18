@@ -1,15 +1,23 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
-from .models import RepresentativeCase, ServiceClient
+from rest_framework.throttling import AnonRateThrottle
+from .models import RepresentativeCase, ServiceClient, PracticeArea
 from .serializers import (
     ConsultationCreateSerializer,
     RepresentativeCaseSerializer,
     ServiceClientSerializer,
+    PracticeAreaSerializer,
 )
 
 
+class ConsultationThrottle(AnonRateThrottle):
+    """预约咨询接口限流：同一 IP 每分钟最多5次，每天最多20次"""
+    scope = 'consultation'
+
+
 @api_view(['POST'])
+@throttle_classes([ConsultationThrottle])
 def create_consultation(request):
     """新增客户预约咨询记录 — POST /api/consultation/"""
     serializer = ConsultationCreateSerializer(data=request.data)
@@ -36,3 +44,24 @@ def list_clients(request):
     clients = ServiceClient.objects.filter(is_active=True)
     serializer = ServiceClientSerializer(clients, many=True, context={'request': request})
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def list_practice_areas(request):
+    """获取业务领域列表（仅展示 is_active=True，按分类分组）— GET /api/practice-areas/"""
+    areas = PracticeArea.objects.filter(is_active=True)
+    serializer = PracticeAreaSerializer(areas, many=True)
+
+    # 按分类分组返回
+    grouped = {}
+    for item in serializer.data:
+        cat = item['category']
+        if cat not in grouped:
+            grouped[cat] = {
+                'category': cat,
+                'category_label': item['category_label'],
+                'items': [],
+            }
+        grouped[cat]['items'].append(item['name'])
+
+    return Response(list(grouped.values()))
