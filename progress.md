@@ -22,6 +22,7 @@
 | 日志系统 + 数据库备份 | ✅ 已完成 | 2026-09-19 |
 | 整体优化（依赖清理+体验增强） | ✅ 已完成 | 2026-09-19 |
 | 生产服务器部署（579云） | ✅ 已完成 | 2026-09-19 |
+| 移动端适配（前端+Admin后台） | ✅ 已完成 | 2026-09-19 |
 
 ---
 
@@ -285,6 +286,41 @@ python manage.py collectstatic --noinput
 cd frontend && npm install --registry=https://registry.npmmirror.com && npm run build && cd ..
 systemctl restart lawyer_backend
 ```
+
+---
+
+### ✅ 阶段十二：移动端适配（2026-09-19）
+
+#### Part A：Vue 前端组件（7个）
+
+| 组件 | 改动 |
+|------|------|
+| NavBar.vue | 汉堡按钮 40px → 44px，满足触摸目标 ≥ 44px |
+| HeroSection.vue | CTA 按钮小屏纵向堆叠（flex-col sm:flex-row），SCROLL 提示移动端隐藏 |
+| PracticeSection.vue | 间距 py-24→py-16、mb-16→mb-10、p-8→p-6；标签 px-4→px-3 + max-w-full |
+| CasesSection.vue | 间距 py-24→py-16、mb-16→mb-10、p-7→p-5；Logo 墙 mt-24→mt-16、h-[88px]→h-[76px] |
+| ContactSection.vue | 间距 py-24→py-16、mb-16→mb-10；联系卡片 p-7→p-5 |
+| FooterBar.vue | 无需修改，移动端已表现良好 |
+| PrivacyView.vue | pt-24→pt-20、p-8→p-5；表格 min-w-[480px] + whitespace-nowrap 防列挤压 |
+
+#### Part B：Django Admin 后台
+
+| 页面 | 状态 |
+|------|------|
+| 登录页 | ✅ SimpleUI 自带适配，无需修改 |
+| Dashboard | ✅ 快捷操作网格正常 |
+| 客户预约咨询列表+编辑 | ✅ 表格横向滚动、fieldsets 分组清晰 |
+| 代表案例列表+编辑 | ✅ list_editable 可编辑 |
+| 服务客户列表+编辑 | ✅ Logo 预览图尺寸合理 |
+| 业务领域列表+编辑 | ✅ 分类筛选、排序可编辑 |
+
+#### 兼容性修复
+- [x] Django 6.1 ActionLocation 枚举与 SimpleUI JSON 序列化不兼容 → monkey-patch json.JSONEncoder.default
+
+#### 验证结果
+- [x] TypeScript 类型检查零错误
+- [x] 生产构建成功（104 模块，gzip 68.81KB）
+- [x] 所有组件 375px 宽度下无横向滚动、文字无溢出、触摸目标 ≥ 44px
 
 ---
 
