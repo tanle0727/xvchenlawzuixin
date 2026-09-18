@@ -21,7 +21,7 @@
 | 安全加固与优化 | ✅ 已完成 | 2026-09-19 |
 | 日志系统 + 数据库备份 | ✅ 已完成 | 2026-09-19 |
 | 整体优化（依赖清理+体验增强） | ✅ 已完成 | 2026-09-19 |
-| 测试与部署 | ⬜ 未开始 | — |
+| 生产服务器部署（579云） | ✅ 已完成 | 2026-09-19 |
 
 ---
 
@@ -226,10 +226,65 @@
 
 ---
 
-### ⬜ 阶段十一：测试与部署
-- [ ] 功能测试
-- [ ] 生产构建（npm run build）
-- [ ] 部署配置
+### ✅ 阶段十一：生产服务器部署（2026-09-19）
+
+#### 服务器信息
+| 项目 | 详情 |
+|------|------|
+| 云服务商 | 579云（内蒙古电信机房） |
+| 公网 IP | 211.101.233.19 |
+| 系统 | Ubuntu 24.04 |
+| CPU / 内存 | 4核 / 4G |
+| 系统盘 / 数据盘 | 50G / 50G |
+| 登录用户 | root |
+| 到期时间 | 2026-10-18 |
+| 月费 | ¥34.50 |
+
+#### 第一阶段：基础环境安装
+- [x] apt update && apt upgrade
+- [x] 安装 python3, python3-venv, python3-pip, git, nginx, curl
+- [x] 安装 Node.js 22.x（前端要求 ≥22.18，从 Node 20 升级）
+- [x] 创建项目目录 /home/lawyer-site
+
+#### 第二阶段：代码拉取与后端环境
+- [x] git clone https://github.com/tanle0727/xvchenlawzuixin.git .
+- [x] Python 虚拟环境 .venv 创建并激活
+- [x] pip install -r requirements.txt（清华镜像源）
+- [x] pip install gunicorn（生产 WSGI 服务器）
+- [x] 创建 .env 文件（DEBUG=False, ALLOWED_HOSTS=211.101.233.19）
+- [x] settings.py 添加 STATIC_ROOT = BASE_DIR / 'static'
+- [x] python manage.py migrate（数据库迁移）
+- [x] python manage.py collectstatic --noinput（2606 个静态文件）
+- [x] python manage.py createsuperuser（用户名 Tanle0727）
+
+#### 第三阶段：前端打包 + Gunicorn + Nginx
+- [x] npm install + npm run build（前端打包到 frontend/dist/）
+- [x] 创建 /etc/systemd/system/lawyer_backend.service（Gunicorn 守护进程，3 workers，开机自启）
+- [x] 创建 /etc/nginx/sites-available/lawyer_site（Nginx 反向代理配置）
+- [x] Nginx 监听 8080 端口（80 端口因未备案被 579 云拦截）
+- [x] systemctl restart nginx + lawyer_backend
+
+#### 部署后修复
+- [x] settings.py 中 SECURE_SSL_REDIRECT / SESSION_COOKIE_SECURE / CSRF_COOKIE_SECURE 改为 False（未配置 SSL 时强制 HTTPS 会导致无法访问）
+
+#### 访问地址
+| 服务 | 地址 |
+|------|------|
+| 网站前台 | http://211.101.233.19:8080 |
+| Admin 后台 | http://211.101.233.19:8080/admin/ |
+| 管理员账号 | Tanle0727 |
+
+#### 更新部署命令（每次代码更新后在服务器执行）
+```bash
+cd /home/lawyer-site
+git pull origin master
+source .venv/bin/activate
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+python manage.py migrate --noinput
+python manage.py collectstatic --noinput
+cd frontend && npm install --registry=https://registry.npmmirror.com && npm run build && cd ..
+systemctl restart lawyer_backend
+```
 
 ---
 
@@ -251,12 +306,28 @@ e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 
 ## 待办事项 / 备注
 
-### 🔜 二期功能规划
+### 🔴 高优先级（影响线上可用性）
+- [ ] ICP 备案：579 云不支持备案，80 端口被拦截，当前用 8080。需迁移到阿里云/腾讯云后备案
+- [ ] HTTPS 配置：未配置 SSL 证书，settings.py 中 SECURE_SSL_REDIRECT=False。绑域名后用 certbot 申请 Let's Encrypt 证书
+- [ ] 服务器续费/迁移：2026-10-18 到期，届时网站不可访问
+- [ ] 更换生产 SECRET_KEY：当前沿用开发环境密钥，应在服务器 .env 中生成新密钥
+
+### 🟡 中优先级（运维完善）
+- [ ] 配置 crontab 定时备份：`0 3 * * * /home/lawyer-site/backup.sh`（每日凌晨 3 点自动备份）
+- [ ] 接入 UptimeRobot 免费监控：监控 http://211.101.233.19:8080 可用性
+- [ ] SQLite → PostgreSQL：当前流量小可暂用，流量增大后需迁移
+
+### 🟢 低优先级 / 二期功能
 - [ ] 诉求简述一键填入模板（按业务类型提供预设文案，用户点击后自动填充到输入框）
+- [ ] 邮件/短信通知：有新预约时通知律师
+- [ ] Admin 后台数据导出 Excel
+- [ ] CI/CD 自动化部署（GitHub Actions → 服务器自动拉取更新）
 
 ### 📋 日常备注
 - 服务客户的 Logo 图片需通过 Django Admin 后台逐个上传（media/logos/ 目录）
 - 8 家客户（金融街资本、太平资本、中邮人寿、华安人寿、国寿投资、国民养老、安联资管、美沃斯）在 PPT 中无独立 Logo 图，未录入
 - DB Browser for SQLite 打开 db.sqlite3 会导致 Django 报 "database is locked"，使用时需关闭
-- 管理员账户已创建（15097801284）
+- 管理员账户：Tanle0727
 - SimpleUI 多标签页模式为默认行为，点击左侧菜单后注意切换顶部 tab
+- 服务器 pip 必须加清华镜像源 `-i https://pypi.tuna.tsinghua.edu.cn/simple`，否则超时
+- 服务器 npm 必须加淘宝镜像源 `--registry=https://registry.npmmirror.com`
