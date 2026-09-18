@@ -166,6 +166,7 @@
 ## Git 提交历史
 
 ```
+16fc1d1 新增业务领域后台管理 + 安全加固（限流/防机器人/CSRF/脱敏）
 5edefec 完成后端数据模型、REST API、前后端联调（预约咨询+代表案例+服务客户）
 f3501a8 完成许宸律师名片页前端开发（Tailwind CSS + 五模块 + UI优化）
 e72ced3 添加 agent.md 项目指南和 progress.md 进度表
@@ -173,8 +174,6 @@ e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 9119bc3 完成后台 simpleui 配置
 7477c87 项目初始化
 ```
-
-> ⚠️ 业务领域联调 + 安全加固的代码尚未 git commit，待用户确认后提交。
 
 ---
 
