@@ -24,6 +24,8 @@
 | 生产服务器部署（579云） | ✅ 已完成 | 2026-09-19 |
 | 移动端适配（前端+Admin后台） | ✅ 已完成 | 2026-09-19 |
 | P0 级问题全面修复（8项安全/架构缺陷） | ✅ 已完成 | 2026-09-19 |
+| 腾讯云服务器部署 + 域名 + HTTPS | ✅ 已完成 | 2026-09-19 |
+| Admin 后台导出 CSV 功能 | ✅ 已完成 | 2026-09-19 |
 
 ---
 
@@ -364,6 +366,62 @@ systemctl restart lawyer_backend
 
 ---
 
+### ✅ 阶段十四：腾讯云服务器部署 + 域名 + HTTPS（2026-09-19）
+
+#### 服务器信息
+| 项目 | 详情 |
+|------|------|
+| 云服务商 | 腾讯云轻量应用服务器 |
+| 公网 IP | 43.140.224.141 |
+| 系统 | Ubuntu |
+| CPU / 内存 | 2核 / 2GB |
+| 系统盘 | 40GB |
+| 到期时间 | 2026-10-19 |
+
+#### 部署步骤
+- [x] 项目路径：/opt/lawyer-site
+- [x] git clone + pip install + npm build
+- [x] Gunicorn 守护进程（3 workers，daemon 模式）
+- [x] Nginx 反向代理（前端静态文件 + /api/ 转发 + /admin/ 转发 + /static/ + /media/）
+- [x] .env 配置（DEBUG=False, ALLOWED_HOSTS, CORS_ALLOWED_ORIGINS）
+- [x] settings.py 末尾覆盖 SSL 配置（未配证书前禁用 SECURE_SSL_REDIRECT）
+- [x] 防火墙放行 80 + 443 端口
+
+#### 域名配置
+- [x] 域名：tanle.cc（腾讯云注册，已实名认证）
+- [x] DNS 解析：lawyer.tanle.cc → A 记录 → 43.140.224.141（DNSPod）
+- [x] Nginx server_name 更新为 lawyer.tanle.cc
+
+#### HTTPS 配置
+- [x] Let's Encrypt 免费证书（certbot --nginx 自动申请+部署）
+- [x] 证书路径：/etc/letsencrypt/live/lawyer.tanle.cc/
+- [x] 证书有效期：2026-12-17，certbot.timer 自动续期
+- [x] HTTP 自动跳转 HTTPS（--redirect）
+
+#### 访问地址
+| 服务 | 地址 |
+|------|------|
+| 网站前台 | https://lawyer.tanle.cc |
+| Admin 后台 | https://lawyer.tanle.cc/admin/ |
+| 管理员账号 | admin |
+
+#### 部署踩坑记录
+- [x] SECURE_SSL_REDIRECT=True 导致 301 重定向到 HTTPS，浏览器永久缓存 301 → 需在 settings.py 末尾覆盖为 False（未配证书时）
+- [x] 项目实际路径 /opt/lawyer-site（非 /home/lawyer-site）
+- [x] 腾讯云轻量服务器防火墙在「防火墙」标签页配置（非安全组）
+- [x] .env 变量名必须与 settings.py 中 config() 读取的 key 一致
+
+---
+
+### ✅ 阶段十五：Admin 后台导出 CSV 功能（2026-09-19）
+
+- [x] CustomerConsultationAdmin 新增 export_as_csv action
+- [x] 支持勾选导出或全量导出（不勾选时导出全部）
+- [x] CSV 含 BOM 头，Excel 直接打开中文不乱码
+- [x] 导出字段：姓名、职务、企业、电话、业务类型、预约日期、诉求、紧急程度、状态、备注、来源、提交时间
+
+---
+
 ## Git 提交历史
 
 ```
@@ -383,10 +441,10 @@ e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 ## 待办事项 / 备注
 
 ### 🔴 高优先级（影响线上可用性）
-- [ ] ICP 备案：579 云不支持备案，80 端口被拦截，当前用 8080。需迁移到阿里云/腾讯云后备案
-- [ ] HTTPS 配置：未配置 SSL 证书，settings.py 中 SECURE_SSL_REDIRECT=False。绑域名后用 certbot 申请 Let's Encrypt 证书
-- [ ] 服务器续费/迁移：2026-10-18 到期，届时网站不可访问
-- [ ] 更换生产 SECRET_KEY：当前沿用开发环境密钥，应在服务器 .env 中生成新密钥
+- [ ] ICP 备案：腾讯云轻量服务器需完成 ICP 备案后才能使用 80/443 端口对外服务（当前未备案可能被拦截）
+- [x] ~~HTTPS 配置~~：已通过 certbot + Let's Encrypt 完成，证书自动续期
+- [ ] 服务器续费：2026-10-19 到期，届时网站不可访问
+- [ ] 更换生产 SECRET_KEY：当前 .env 中使用占位密钥，应生成强随机密钥
 
 ### 🟡 中优先级（运维完善）
 - [ ] 配置 crontab 定时备份：`0 3 * * * /home/lawyer-site/backup.sh`（每日凌晨 3 点自动备份）

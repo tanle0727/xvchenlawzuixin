@@ -1,3 +1,5 @@
+import csv
+from django.http import HttpResponse
 from django.contrib import admin, messages
 from django.utils.html import format_html
 from .models import CustomerConsultation, RepresentativeCase, ServiceClient, PracticeArea
@@ -28,7 +30,7 @@ class CustomerConsultationAdmin(admin.ModelAdmin):
         }),
     ]
 
-    actions = ['mark_as_completed', 'mark_as_confirmed']
+    actions = ['export_as_csv', 'mark_as_completed', 'mark_as_confirmed']
 
     def masked_phone(self, obj):
         """列表页显示脱敏手机号，如 138****8000"""
@@ -36,6 +38,40 @@ class CustomerConsultationAdmin(admin.ModelAdmin):
             return obj.phone[:3] + '****' + obj.phone[-4:]
         return obj.phone or '-'
     masked_phone.short_description = '联系电话'
+
+    @admin.action(description='📥 导出为 CSV')
+    def export_as_csv(self, request, queryset):
+        """导出选中的（或全部）预约记录为 CSV 文件"""
+        # 如果用户没有勾选任何记录，则导出全部
+        if not queryset.exists():
+            queryset = CustomerConsultation.objects.all()
+
+        response = HttpResponse(content_type='text/csv; charset=utf-8-sig')
+        response['Content-Disposition'] = 'attachment; filename="客户预约咨询导出.csv"'
+        # BOM 头确保 Excel 正确识别中文
+        response.write('﻿')
+
+        writer = csv.writer(response)
+        writer.writerow(['客户姓名', '职务', '企业名称', '联系电话', '业务类型', '期望预约日期', '诉求简述', '紧急程度', '处理状态', '后台备注', '预约来源', '提交时间'])
+
+        for obj in queryset:
+            writer.writerow([
+                obj.name,
+                obj.position,
+                obj.company_name,
+                obj.phone,
+                obj.get_case_category_display(),
+                obj.appointment_date or '',
+                obj.case_description,
+                obj.get_urgency_level_display(),
+                obj.get_status_display(),
+                obj.admin_remark,
+                obj.get_source_display(),
+                obj.created_at.strftime('%Y-%m-%d %H:%M') if obj.created_at else '',
+            ])
+
+        messages.success(request, f'已导出 {queryset.count()} 条记录')
+        return response
 
     @admin.action(description='✅ 批量标记为「已完成」')
     def mark_as_completed(self, request, queryset):
