@@ -181,3 +181,70 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True             # HTTP 自动跳转 HTTPS
     SESSION_COOKIE_SECURE = True           # Session Cookie 仅通过 HTTPS 传输
     CSRF_COOKIE_SECURE = True              # CSRF Cookie 仅通过 HTTPS 传输
+
+# ===== 日志配置 =====
+LOG_DIR = BASE_DIR / 'logs'
+LOG_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} [{levelname}] {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        # API 请求日志（预约提交、限流触发等）
+        'api_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_DIR / 'api.log',
+            'maxBytes': 10 * 1024 * 1024,  # 10MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        # 安全事件日志（登录失败、异常访问等）
+        'security_file': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_DIR / 'security.log',
+            'maxBytes': 10 * 1024 * 1024,
+            'backupCount': 5,
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        # 服务器错误日志
+        'error_file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOG_DIR / 'error.log',
+            'maxBytes': 10 * 1024 * 1024,
+            'backupCount': 5,
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+    },
+    'loggers': {
+        # Django 安全相关（登录失败、CSRF 拒绝等）
+        'django.security': {
+            'handlers': ['security_file'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        # Django 请求错误
+        'django.request': {
+            'handlers': ['error_file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        # 业务应用日志（预约咨询等）
+        'lawyer_app': {
+            'handlers': ['api_file', 'error_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

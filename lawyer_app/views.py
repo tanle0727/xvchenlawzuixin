@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,6 +11,8 @@ from .serializers import (
     ServiceClientSerializer,
     PracticeAreaSerializer,
 )
+
+logger = logging.getLogger('lawyer_app')
 
 
 class ConsultationThrottle(AnonRateThrottle):
@@ -22,11 +26,15 @@ def create_consultation(request):
     """新增客户预约咨询记录 — POST /api/consultation/"""
     serializer = ConsultationCreateSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        obj = serializer.save()
+        ip = request.META.get('REMOTE_ADDR', 'unknown')
+        logger.info(f'预约提交成功 | IP={ip} | 姓名={obj.name} | 类型={obj.case_category}')
         return Response(
             {'message': '提交成功，我们将尽快与您联系'},
             status=status.HTTP_201_CREATED,
         )
+    ip = request.META.get('REMOTE_ADDR', 'unknown')
+    logger.warning(f'预约提交失败 | IP={ip} | 错误={serializer.errors}')
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
