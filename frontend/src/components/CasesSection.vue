@@ -21,11 +21,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section id="cases" class="py-24 lg:py-32 bg-warm-100">
+  <section id="cases" class="py-16 lg:py-32 bg-warm-100">
     <div class="max-w-6xl mx-auto px-6 lg:px-8">
 
       <!-- ===== 区块标题 ===== -->
-      <div class="text-center mb-16 lg:mb-20 space-y-4">
+      <div class="text-center mb-10 lg:mb-20 space-y-4">
         <p class="text-xs font-medium tracking-[0.3em] text-gold-500 uppercase">Track Record</p>
         <h2 class="text-3xl lg:text-5xl font-bold text-brand-950 tracking-tight">代表案例</h2>
         <div class="w-12 h-px bg-gold-500/50 mx-auto mt-6" />
@@ -41,7 +41,7 @@ onMounted(async () => {
         <div
           v-for="item in cases"
           :key="item.id"
-          class="group/card relative rounded-2xl border border-brand-200/50 bg-white p-7 hover:border-gold-400/40 hover:shadow-xl hover:shadow-brand-950/5 transition-all duration-500"
+          class="group/card relative rounded-2xl border border-brand-200/50 bg-white p-5 lg:p-7 hover:border-gold-400/40 hover:shadow-xl hover:shadow-brand-950/5 transition-all duration-500"
         >
           <!-- 左侧金色竖线装饰 -->
           <div class="absolute left-0 top-6 bottom-6 w-1 rounded-r-full bg-gradient-to-b from-gold-400 to-gold-300/40 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500" />
@@ -69,7 +69,7 @@ onMounted(async () => {
       </div>
 
       <!-- ===== 合作品牌 Logo 墙 ===== -->
-      <div v-if="clients.length" class="mt-24 lg:mt-28">
+      <div v-if="clients.length" class="mt-16 lg:mt-28">
         <div class="text-center mb-12 space-y-3">
           <p class="text-xs font-medium tracking-[0.3em] text-gold-500 uppercase">Trusted By</p>
           <h3 class="text-2xl lg:text-3xl font-bold text-brand-950 tracking-tight">服务客户</h3>
@@ -79,7 +79,7 @@ onMounted(async () => {
           <div
             v-for="client in clients"
             :key="client.id"
-            class="group/logo flex items-center justify-center p-5 rounded-xl border border-brand-200/30 bg-white/80 hover:border-gold-400/30 hover:bg-white hover:shadow-md hover:shadow-brand-950/5 transition-all duration-300 h-[88px]"
+            class="group/logo flex items-center justify-center p-4 lg:p-5 rounded-xl border border-brand-200/30 bg-white/80 hover:border-gold-400/30 hover:bg-white hover:shadow-md hover:shadow-brand-950/5 transition-all duration-300 h-[76px] lg:h-[88px]"
           >
             <img
               v-if="client.logo"
