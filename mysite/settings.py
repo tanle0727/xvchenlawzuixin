@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
     'lawyer_app',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -118,6 +121,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# 媒体文件（用户上传的图片等）
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
@@ -127,3 +134,29 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# ===== CORS 跨域配置 =====
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
+
+# ===== Django REST Framework 配置 =====
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DATE_FORMAT': '%Y-%m-%d',
+    'TIME_FORMAT': '%H:%M',
+    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
+}
+
+# ===== SimpleUI 配置 =====
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_DEFAULT_THEME = 'admin.lte.css'
+
+# 关闭多标签页模式，点击菜单直接跳转页面
+SIMPLEUI_CONFIG = {
+    'system_keep': True,
+}
+SIMPLEUI_ANALYSIS = False

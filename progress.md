@@ -13,9 +13,10 @@
 | Django 后台 + SimpleUI | ✅ 已完成 | 2026-09-18 |
 | Vue 前端框架集成 | ✅ 已完成 | 2026-09-18 |
 | 许宸律师名片页前端开发 | ✅ 已完成 | 2026-09-19 |
-| 后端数据模型设计 | ⬜ 未开始 | — |
-| 后端 REST API 开发 | ⬜ 未开始 | — |
-| 前后端联调 | ⬜ 未开始 | — |
+| 后端数据模型设计 | ✅ 已完成 | 2026-09-19 |
+| 后端 REST API 开发 | ✅ 已完成 | 2026-09-19 |
+| 前后端联调（预约咨询） | ✅ 已完成 | 2026-09-19 |
+| 前后端联调（案例+客户） | ✅ 已完成 | 2026-09-19 |
 | 测试与部署 | ⬜ 未开始 | — |
 
 ---
@@ -78,58 +79,102 @@
 - [x] 标签药丸式布局，hover 金色高亮
 
 #### Step 4：核心战绩与客户矩阵模块
-- [x] 代表案例 5 个（网格布局，桌面端 3 列）：
-  - 金智维科技C轮融资（5亿元）
-  - 思为科技C轮融资（数亿元）
-  - 深桑达子公司增资（4亿元）
-  - 中润化学融资项目（超一亿元）
-  - 与睿创新首轮融资（数千万元）
-- [x] 客户 Logo 墙 20 家（从 PPT Slide 7 提取真实 Logo 图片）：
-  - vivo、招商局资本、招商创投、远毅资本、蔚来汽车、中国人寿、大家资产、盛世美天、中意资产、光大永明人寿、中信信托、新华保险、阳光保险、中信保诚、招商信诺、光大信托、国开金融、中保投资、中金公司、合众资产
+- [x] 代表案例 5 个（网格布局，桌面端 3 列）
+- [x] 客户 Logo 墙 20 家（从 PPT Slide 7 提取真实 Logo 图片）
 - [x] Logo 默认灰度半透明，hover 恢复彩色
 
 #### Step 5：B端商业线索收集表单
 - [x] 双栏布局（左3列表单 + 右2列联系方式）
-- [x] 表单字段：企业名称(选填)、联系人及职务(必填)、联系电话(必填+正则校验)、业务需求类型(Select下拉)、诉求简述(选填)、是否紧急(Checkbox)、隐私政策同意(Checkbox，不勾选禁用提交)
-- [x] 提交成功状态 + 再次提交按钮
-- [x] 右侧联系方式卡片（邮箱、电话、地址）
-- [x] 微信二维码（从 PPT 最后一页提取）+ "合作只是开始 服务永无止境"标语
+- [x] 表单字段 + 校验 + 提交成功状态
+- [x] 右侧联系方式卡片 + 微信二维码
 
 #### UI 整体优化
-- [x] 色彩体系升级：纯黑白灰 → 深空灰 + 藏青蓝 + 饱和金色 + 暖白米色
-- [x] 各区块背景交替节奏：暖白渐变 → 藏青深色 → 暖米色 → 暖米色 → 藏青底栏
-- [x] 导航栏改为藏青深色，与浅色背景形成区分
-- [x] 首屏背景多层渐变（暖米金底色 + 金色/藏青/灰紫光斑），杜绝纯白
-- [x] 案例从横向滑动改为网格布局
-- [x] 表单从单列长表单改为双栏紧凑布局
-
-#### 素材资源
-- [x] frontend/src/assets/images/lawyer-profile.png — 许宸律师形象照
-- [x] frontend/src/assets/images/wechat-qrcode.png — 微信二维码
-- [x] frontend/src/assets/images/logos/ — 20 张 PPT 提取的客户 Logo
+- [x] 色彩体系升级、背景交替节奏、导航栏深色化、首屏多层渐变等
 
 ---
 
-### ⬜ 阶段五：后端数据模型设计
-- [ ] 设计律师信息模型（Lawyer）
-- [ ] 设计专业领域模型（PracticeArea）
-- [ ] 设计案例模型（Case）
-- [ ] 执行数据库迁移
-- [ ] 在 admin.py 中注册模型到 SimpleUI 后台
+### ✅ 阶段五：后端数据模型设计（2026-09-19）
 
-### ⬜ 阶段六：后端 REST API 开发
-- [ ] 安装 djangorestframework + django-cors-headers
-- [ ] 创建序列化器（Serializers）
-- [ ] 创建 API 视图（ViewSets）
-- [ ] 配置 API 路由
-- [ ] 配置跨域（CORS）
+#### 数据表一览
+| 模型 | 表名 | 用途 |
+|------|------|------|
+| CustomerConsultation | customer_consultation | 客户预约咨询信息表 |
+| RepresentativeCase | representative_case | 代表案例表 |
+| ServiceClient | service_client | 服务客户Logo墙表 |
 
-### ⬜ 阶段七：前后端联调
-- [ ] 对接律师列表 API
-- [ ] 对接律师详情 API
-- [ ] 对接专业领域 API
-- [ ] 对接案例 API
-- [ ] 联调测试
+#### CustomerConsultation 字段
+- [x] name（客户姓名）、position（职务）、company_name（企业名称）、phone（联系电话）
+- [x] appointment_date（期望预约日期）
+- [x] case_category（业务类型，15项：6非诉+8诉讼+其他，与前端完全统一）
+- [x] case_description（诉求简述）、urgency_level（紧急程度：一般/紧急）
+- [x] status（处理状态：待确认/已确认/已完成/已取消）、admin_remark（后台备注）
+- [x] source（预约来源）、created_at、updated_at
+
+#### RepresentativeCase 字段
+- [x] title（案例标题）、role（律师角色）、amount（金额标签）、description（案例描述）
+- [x] sort_order（排序优先级，数字越小越靠前）
+- [x] is_active（是否展示，上下架开关）
+
+#### ServiceClient 字段
+- [x] name（客户名称）、logo（Logo图片，ImageField 上传到 media/logos/）
+- [x] sort_order（排序优先级）
+- [x] is_active（是否展示）
+
+#### 数据库迁移
+- [x] 0001_initial.py — CustomerConsultation
+- [x] 0002 — 精简字段（去掉 email/gender/appointment_time 等前端不需要的字段，新增 position/company_name）
+- [x] 0003 — RepresentativeCase + ServiceClient
+
+---
+
+### ✅ 阶段六：后端 REST API 开发（2026-09-19）
+
+#### 依赖安装
+- [x] djangorestframework
+- [x] django-cors-headers
+- [x] Pillow（ImageField 支持）
+
+#### Django 配置
+- [x] INSTALLED_APPS 添加 rest_framework、corsheaders
+- [x] MIDDLEWARE 添加 CorsMiddleware
+- [x] CORS_ALLOWED_ORIGINS 允许 localhost:5173
+- [x] REST_FRAMEWORK 配置（JSONRenderer、日期格式）
+- [x] MEDIA_URL / MEDIA_ROOT 配置
+- [x] 开发环境 media 文件 URL 路由
+
+#### API 接口
+| 方法 | 路径 | 用途 |
+|------|------|------|
+| POST | /api/consultation/ | 提交预约咨询（前端→后端写入） |
+| GET | /api/cases/ | 获取代表案例列表（仅 is_active=True） |
+| GET | /api/clients/ | 获取服务客户列表（仅 is_active=True，logo 返回完整 URL） |
+
+#### Admin 后台
+- [x] CustomerConsultationAdmin — 列表展示、筛选、搜索
+- [x] RepresentativeCaseAdmin — 列表可直接编辑排序号和上下架
+- [x] ServiceClientAdmin — 列表可直接编辑排序号和上下架，Logo 缩略图预览
+
+---
+
+### ✅ 阶段七：前后端联调（2026-09-19）
+
+#### 预约咨询联调
+- [x] 安装 axios
+- [x] 创建 src/api/consultation.ts — 封装 submitConsultation()
+- [x] Vite 代理配置（/api → Django 8000）
+- [x] ContactSection.vue 接入真实 API（async handleSubmit + loading 状态 + 错误提示）
+- [x] 前后端字段完全统一（name/position/company_name/phone/case_category/appointment_date/case_description/urgency_level）
+- [x] 姓名与职务分开填写
+- [x] 业务类型下拉分两组（非诉业务/诉讼业务），共 15 项，与后端 choices 一致
+- [x] 期望预约日期选择器（date input，min=今天）
+
+#### 案例 + 客户联调
+- [x] API 函数 getCases() / getClients()
+- [x] CasesSection.vue 改为 onMounted 从 API 拉取数据，替换硬编码
+- [x] Logo 图片 src 使用后端返回的完整 URL
+- [x] 预置初始数据：5 条案例 + 20 个客户名称（Logo 需通过后台上传）
+
+---
 
 ### ⬜ 阶段八：测试与部署
 - [ ] 功能测试
@@ -141,19 +186,21 @@
 ## Git 提交历史
 
 ```
+f3501a8 完成许宸律师名片页前端开发（Tailwind CSS + 五模块 + UI优化）
 e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 503ad62 完成 Vue 前端集成
 9119bc3 完成后台 simpleui 配置
 7477c87 项目初始化
 ```
 
+> ⚠️ 阶段五~七的代码尚未 git commit，待用户确认后提交。
+
 ---
 
 ## 待办事项 / 备注
 
-- 前端名片页已完成静态开发，所有数据硬编码在组件中，后续需对接后端 API
-- 尚未安装 `djangorestframework` 和 `django-cors-headers`
-- 尚未安装 `axios`（前端 HTTP 请求库）
-- 尚未创建管理员账户（`python manage.py createsuperuser`）
-- lawyer_app 中 models.py / views.py / admin.py 均为空，等待业务开发
-- 8 家客户（金融街资本、太平资本、中邮人寿、华安人寿、国寿投资、国民养老、安联资管、美沃斯）在 PPT 中无独立 Logo 图，未展示在 Logo 墙中
+- 服务客户的 Logo 图片需通过 Django Admin 后台逐个上传（media/logos/ 目录）
+- 8 家客户（金融街资本、太平资本、中邮人寿、华安人寿、国寿投资、国民养老、安联资管、美沃斯）在 PPT 中无独立 Logo 图，未录入
+- DB Browser for SQLite 打开 db.sqlite3 会导致 Django 报 "database is locked"，使用时需关闭
+- 管理员账户已创建（15097801284）
+- SimpleUI 多标签页模式为默认行为，点击左侧菜单后注意切换顶部 tab

@@ -1,27 +1,53 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import wechatQrcode from '@/assets/images/wechat-qrcode.png'
+import { submitConsultation } from '@/api/consultation'
 
-// ===== 表单数据模型 =====
+// ===== 表单数据模型（与后端字段一一对应） =====
 const form = ref({
-  company: '',
-  contactName: '',
+  name: '',
+  position: '',
+  company_name: '',
   phone: '',
-  serviceType: '',
-  description: '',
-  isUrgent: false,
+  case_category: '',
+  appointment_date: '',
+  case_description: '',
+  urgency_level: '一般',
   agreePrivacy: false,
 })
 
-const serviceOptions = [
-  { value: 'investment', label: '投融资非诉' },
-  { value: 'litigation', label: '商事与劳动诉讼' },
-  { value: 'governance', label: '公司治理' },
-  { value: 'other', label: '其他' },
+// ===== 业务类型选项（非诉 + 诉讼，与后端 choices 完全一致） =====
+const serviceGroups = [
+  {
+    label: '非诉业务',
+    options: [
+      { value: '公司治理', label: '公司治理' },
+      { value: '私募股权投融资', label: '私募股权投融资' },
+      { value: '国资交易', label: '国资交易' },
+      { value: '基金合规', label: '基金管理人募投管退全流程合规法律服务' },
+      { value: '交易架构设计', label: '交易架构设计' },
+      { value: '保险资管', label: '保险资管' },
+    ],
+  },
+  {
+    label: '诉讼业务',
+    options: [
+      { value: '合同纠纷', label: '合同纠纷' },
+      { value: '侵权纠纷', label: '侵权纠纷' },
+      { value: '劳动争议', label: '劳动争议' },
+      { value: '公司股权纠纷', label: '公司股权纠纷' },
+      { value: '金融借款纠纷', label: '金融借款纠纷' },
+      { value: '建设工程纠纷', label: '建设工程纠纷' },
+      { value: '知识产权纠纷', label: '知识产权纠纷' },
+      { value: '不正当竞争纠纷', label: '不正当竞争纠纷' },
+    ],
+  },
 ]
 
+// ===== 校验 =====
 const phonePattern = /^1[3-9]\d{9}$/
 const phoneError = ref('')
+const nameError = ref('')
 
 const validatePhone = () => {
   if (!form.value.phone) {
@@ -33,44 +59,77 @@ const validatePhone = () => {
   }
 }
 
-const contactNameError = ref('')
-
-const validateContactName = () => {
-  contactNameError.value = form.value.contactName ? '' : '请输入联系人及职务'
+const validateName = () => {
+  nameError.value = form.value.name.trim() ? '' : '请输入客户姓名'
 }
 
 const canSubmit = computed(() => {
   return (
-    form.value.contactName.trim() !== '' &&
+    form.value.name.trim() !== '' &&
     phonePattern.test(form.value.phone) &&
-    form.value.serviceType !== '' &&
+    form.value.case_category !== '' &&
     form.value.agreePrivacy
   )
 })
 
+// ===== 提交 =====
 const submitted = ref(false)
+const submitting = ref(false)
+const submitError = ref('')
 
-const handleSubmit = () => {
-  validateContactName()
+const handleSubmit = async () => {
+  validateName()
   validatePhone()
   if (!canSubmit.value) return
-  submitted.value = true
+
+  submitting.value = true
+  submitError.value = ''
+  try {
+    await submitConsultation({
+      name: form.value.name,
+      position: form.value.position,
+      company_name: form.value.company_name,
+      phone: form.value.phone,
+      case_category: form.value.case_category,
+      appointment_date: form.value.appointment_date,
+      case_description: form.value.case_description,
+      urgency_level: form.value.urgency_level,
+    })
+    submitted.value = true
+  } catch (err: any) {
+    const data = err.response?.data
+    if (data && typeof data === 'object') {
+      const msgs = Object.values(data).flat() as string[]
+      submitError.value = msgs.join('；') || '提交失败，请稍后重试'
+    } else {
+      submitError.value = '网络异常，请检查连接后重试'
+    }
+  } finally {
+    submitting.value = false
+  }
 }
 
 const resetForm = () => {
   form.value = {
-    company: '',
-    contactName: '',
+    name: '',
+    position: '',
+    company_name: '',
     phone: '',
-    serviceType: '',
-    description: '',
-    isUrgent: false,
+    case_category: '',
+    appointment_date: '',
+    case_description: '',
+    urgency_level: '一般',
     agreePrivacy: false,
   }
   phoneError.value = ''
-  contactNameError.value = ''
+  nameError.value = ''
   submitted.value = false
+  submitting.value = false
+  submitError.value = ''
 }
+
+// ===== 日期最小值：今天 =====
+const todayStr = new Date().toISOString().slice(0, 10)
 </script>
 
 <template>
@@ -121,7 +180,38 @@ const resetForm = () => {
           @submit.prevent="handleSubmit"
           class="lg:col-span-3 space-y-5"
         >
-          <!-- 企业名称 + 联系人 并排 -->
+          <!-- 第一行：姓名 + 职务 -->
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="block text-sm font-medium text-brand-700">
+                客户姓名
+                <span class="text-red-400 ml-0.5">*</span>
+              </label>
+              <input
+                v-model="form.name"
+                type="text"
+                placeholder="请输入姓名"
+                class="w-full px-4 py-3 rounded-xl border bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 transition-all duration-300"
+                :class="nameError ? 'border-red-300 focus:border-red-400' : 'border-brand-200/80 focus:border-gold-400'"
+                @blur="validateName"
+              />
+              <p v-if="nameError" class="text-xs text-red-400">{{ nameError }}</p>
+            </div>
+            <div class="space-y-1.5">
+              <label class="block text-sm font-medium text-brand-700">
+                职务
+                <span class="text-brand-400 font-normal ml-1">（选填）</span>
+              </label>
+              <input
+                v-model="form.position"
+                type="text"
+                placeholder="如：法务总监"
+                class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300"
+              />
+            </div>
+          </div>
+
+          <!-- 第二行：企业名称 + 电话 -->
           <div class="grid sm:grid-cols-2 gap-5">
             <div class="space-y-1.5">
               <label class="block text-sm font-medium text-brand-700">
@@ -129,31 +219,12 @@ const resetForm = () => {
                 <span class="text-brand-400 font-normal ml-1">（选填）</span>
               </label>
               <input
-                v-model="form.company"
+                v-model="form.company_name"
                 type="text"
                 placeholder="企业全称"
                 class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300"
               />
             </div>
-            <div class="space-y-1.5">
-              <label class="block text-sm font-medium text-brand-700">
-                联系人及职务
-                <span class="text-red-400 ml-0.5">*</span>
-              </label>
-              <input
-                v-model="form.contactName"
-                type="text"
-                placeholder="张三 / 法务总监"
-                class="w-full px-4 py-3 rounded-xl border bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 transition-all duration-300"
-                :class="contactNameError ? 'border-red-300 focus:border-red-400' : 'border-brand-200/80 focus:border-gold-400'"
-                @blur="validateContactName"
-              />
-              <p v-if="contactNameError" class="text-xs text-red-400">{{ contactNameError }}</p>
-            </div>
-          </div>
-
-          <!-- 电话 + 业务类型 并排 -->
-          <div class="grid sm:grid-cols-2 gap-5">
             <div class="space-y-1.5">
               <label class="block text-sm font-medium text-brand-700">
                 联系电话
@@ -170,6 +241,10 @@ const resetForm = () => {
               />
               <p v-if="phoneError" class="text-xs text-red-400">{{ phoneError }}</p>
             </div>
+          </div>
+
+          <!-- 第三行：业务类型 + 期望预约日期 -->
+          <div class="grid sm:grid-cols-2 gap-5">
             <div class="space-y-1.5">
               <label class="block text-sm font-medium text-brand-700">
                 业务需求类型
@@ -177,19 +252,34 @@ const resetForm = () => {
               </label>
               <div class="relative">
                 <select
-                  v-model="form.serviceType"
+                  v-model="form.case_category"
                   class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300 cursor-pointer"
-                  :class="form.serviceType ? 'text-brand-900' : 'text-brand-400'"
+                  :class="form.case_category ? 'text-brand-900' : 'text-brand-400'"
                 >
                   <option value="" disabled>请选择</option>
-                  <option v-for="opt in serviceOptions" :key="opt.value" :value="opt.value" class="text-brand-900">
-                    {{ opt.label }}
-                  </option>
+                  <optgroup v-for="group in serviceGroups" :key="group.label" :label="group.label">
+                    <option v-for="opt in group.options" :key="opt.value" :value="opt.value" class="text-brand-900">
+                      {{ opt.label }}
+                    </option>
+                  </optgroup>
+                  <option value="其他" class="text-brand-900">其他</option>
                 </select>
                 <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
+            </div>
+            <div class="space-y-1.5">
+              <label class="block text-sm font-medium text-brand-700">
+                期望预约日期
+                <span class="text-brand-400 font-normal ml-1">（选填）</span>
+              </label>
+              <input
+                v-model="form.appointment_date"
+                type="date"
+                :min="todayStr"
+                class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300"
+              />
             </div>
           </div>
 
@@ -200,7 +290,7 @@ const resetForm = () => {
               <span class="text-brand-400 font-normal ml-1">（选填）</span>
             </label>
             <textarea
-              v-model="form.description"
+              v-model="form.case_description"
               rows="3"
               placeholder="请简要描述您的法律需求..."
               class="w-full px-4 py-3 rounded-xl border border-brand-200/80 bg-white text-brand-900 placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-gold-400/40 focus:border-gold-400 transition-all duration-300 resize-none"
@@ -211,7 +301,12 @@ const resetForm = () => {
           <div class="flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
             <label class="flex items-center gap-2.5 cursor-pointer group">
               <div class="relative">
-                <input v-model="form.isUrgent" type="checkbox" class="sr-only peer" />
+                <input
+                  type="checkbox"
+                  class="sr-only peer"
+                  :checked="form.urgency_level === '紧急'"
+                  @change="form.urgency_level = ($event.target as HTMLInputElement).checked ? '紧急' : '一般'"
+                />
                 <div class="w-[18px] h-[18px] rounded border-2 border-brand-300 bg-white peer-checked:bg-brand-950 peer-checked:border-brand-950 transition-all duration-200 flex items-center justify-center">
                   <svg class="w-2.5 h-2.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -236,16 +331,21 @@ const resetForm = () => {
             </label>
           </div>
 
+          <!-- 错误提示 -->
+          <p v-if="submitError" class="text-sm text-red-500 bg-red-50 rounded-lg px-4 py-2.5">
+            {{ submitError }}
+          </p>
+
           <!-- 提交按钮 -->
           <button
             type="submit"
-            :disabled="!canSubmit"
+            :disabled="!canSubmit || submitting"
             class="w-full py-3.5 rounded-xl text-sm font-semibold tracking-wide transition-all duration-400"
-            :class="canSubmit
+            :class="canSubmit && !submitting
               ? 'bg-gradient-to-r from-brand-950 to-navy-800 text-white hover:shadow-xl hover:shadow-brand-950/25 cursor-pointer'
               : 'bg-brand-200 text-brand-400 cursor-not-allowed'"
           >
-            {{ canSubmit ? '提交咨询' : '请填写必填项并同意隐私政策' }}
+            {{ submitting ? '提交中...' : canSubmit ? '提交咨询' : '请填写必填项并同意隐私政策' }}
           </button>
         </form>
 
