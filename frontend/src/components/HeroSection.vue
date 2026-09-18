@@ -91,16 +91,16 @@ const profileImageSrc = ref(lawyerProfileImg)
           </div>
 
           <!-- CTA 按钮 -->
-          <div class="flex items-center gap-4 pt-4">
+          <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
             <a
               href="#contact"
-              class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-brand-950 text-white text-sm font-medium tracking-wide hover:bg-brand-800 transition-all duration-300 shadow-lg shadow-brand-950/20"
+              class="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 rounded-full bg-brand-950 text-white text-sm font-medium tracking-wide hover:bg-brand-800 transition-all duration-300 shadow-lg shadow-brand-950/20"
             >
               预约咨询
             </a>
             <a
               href="#practice"
-              class="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-brand-300 text-brand-700 text-sm font-medium tracking-wide hover:border-brand-950 hover:text-brand-950 transition-all duration-300"
+              class="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 rounded-full border border-brand-300 text-brand-700 text-sm font-medium tracking-wide hover:border-brand-950 hover:text-brand-950 transition-all duration-300"
             >
               了解业务领域
             </a>
@@ -144,8 +144,8 @@ const profileImageSrc = ref(lawyerProfileImg)
       </div>
     </div>
 
-    <!-- 底部滚动提示 -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce">
+    <!-- 底部滚动提示（移动端隐藏） -->
+    <div class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 opacity-60 animate-bounce">
       <span class="text-[10px] tracking-[0.3em] text-brand-400 uppercase">Scroll</span>
       <svg class="w-4 h-4 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
