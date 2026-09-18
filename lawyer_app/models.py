@@ -8,10 +8,10 @@ class CustomerConsultation(models.Model):
     name = models.CharField("客户姓名", max_length=50)
     position = models.CharField("职务", max_length=50, blank=True, default='')
     company_name = models.CharField("企业名称", max_length=100, blank=True, default='')
-    phone = models.CharField("联系电话", max_length=20)
+    phone = models.CharField("联系电话", max_length=20, db_index=True)
 
     # 预约信息
-    appointment_date = models.DateField("期望预约日期", blank=True, null=True)
+    appointment_date = models.DateField("期望预约日期", blank=True, null=True, db_index=True)
 
     # 咨询内容
     case_category = models.CharField(
@@ -61,6 +61,7 @@ class CustomerConsultation(models.Model):
             ("已取消", "已取消"),
         ],
         default="待确认",
+        db_index=True,
     )
     admin_remark = models.TextField("后台备注", blank=True, default='')
 
@@ -115,7 +116,7 @@ class ServiceClient(models.Model):
     """服务客户Logo墙表"""
 
     name = models.CharField("客户名称", max_length=100)
-    logo = models.ImageField("Logo图片", upload_to='logos/')
+    logo = models.ImageField("Logo图片", upload_to='logos/', blank=True, default='')
     sort_order = models.IntegerField("排序优先级", default=0, help_text="数字越小越靠前")
     is_active = models.BooleanField("是否展示", default=True)
     created_at = models.DateTimeField("创建时间", auto_now_add=True)

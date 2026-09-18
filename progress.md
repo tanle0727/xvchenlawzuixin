@@ -20,6 +20,7 @@
 | 前后端联调（业务领域） | ✅ 已完成 | 2026-09-19 |
 | 安全加固与优化 | ✅ 已完成 | 2026-09-19 |
 | 日志系统 + 数据库备份 | ✅ 已完成 | 2026-09-19 |
+| 整体优化（依赖清理+体验增强） | ✅ 已完成 | 2026-09-19 |
 | 测试与部署 | ⬜ 未开始 | — |
 
 ---
@@ -195,7 +196,37 @@
 
 ---
 
-### ⬜ 阶段十：测试与部署
+### ✅ 阶段十：整体优化（2026-09-19）
+
+#### P0 — 必须修复
+- [x] 移除 Element Plus 残留依赖（element-plus + @element-plus/icons-vue），包体积减少 ~9KB gzip
+- [x] 新建 utils/toast.ts 轻量 toast（纯 Tailwind CSS，无第三方依赖），替换 ElMessage
+- [x] 删除 Pinia counter store 无用代码（Vite 模板遗留）
+- [x] 后端添加预约日期校验（validate_appointment_date 拒绝过去日期）
+
+#### P1 — 建议优化
+- [x] PrivacyView 复用全局 NavBar + FooterBar，移除内联 nav/footer 重复代码
+- [x] NavBar 汉堡按钮加 aria-expanded；SVG 加 aria-hidden="true"
+- [x] App.vue 加 skip-to-content 无障碍链接
+- [x] FooterBar 补充隐私政策链接
+- [x] 数据库索引优化（phone/appointment_date/status 加 db_index=True）
+- [x] Admin 后台增强：fieldsets 分组、date_hierarchy、批量标记完成/已确认 action
+- [x] ServiceClient.logo 允许为空（blank=True, default=''）
+
+#### P2 — 锦上添花
+- [x] 页面路由过渡动画（淡入淡出 0.25s）
+- [x] PracticeSection 加载骨架屏（animate-pulse 占位）
+
+#### 验证结果
+- [x] TypeScript 类型检查零错误
+- [x] 生产构建成功，模块数 1668 → 104，包体积 210KB → 185KB（gzip 78KB → 69KB）
+- [x] Django check 零问题，迁移生成并应用成功
+- [x] API 测试：过去日期 → 400 拒绝 ✅，正常提交 → 201 ✅
+- [x] npm audit：0 漏洞
+
+---
+
+### ⬜ 阶段十一：测试与部署
 - [ ] 功能测试
 - [ ] 生产构建（npm run build）
 - [ ] 部署配置

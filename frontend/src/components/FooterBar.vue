@@ -19,14 +19,16 @@ const currentYear = new Date().getFullYear()
           </p>
         </div>
 
-        <!-- 右侧：版权 -->
+        <!-- 右侧：版权 + 隐私政策 -->
         <div class="flex flex-col items-center md:items-end gap-1">
           <p class="text-xs text-brand-500">
             &copy; {{ currentYear }} 北京恒都律师事务所 版权所有
           </p>
-          <p class="text-[10px] text-brand-600">
-            本网站内容仅供参考，不构成法律意见
-          </p>
+          <div class="flex items-center gap-3 text-[10px] text-brand-600">
+            <router-link to="/privacy" class="hover:text-gold-400 transition-colors">隐私保护政策</router-link>
+            <span class="text-brand-700">|</span>
+            <span>本网站内容仅供参考，不构成法律意见</span>
+          </div>
         </div>
       </div>
     </div>

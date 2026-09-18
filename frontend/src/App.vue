@@ -17,15 +17,43 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 <template>
   <div class="min-h-screen flex flex-col bg-white">
+    <!-- 无障碍：跳过导航链接 -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-brand-950 focus:text-white focus:rounded-lg focus:text-sm focus:font-medium"
+    >
+      跳到主要内容
+    </a>
+
     <!-- 顶部导航栏 -->
     <NavBar :is-scrolled="isScrolled" />
 
     <!-- 主内容区 -->
-    <main class="flex-1">
-      <RouterView />
+    <main id="main-content" class="flex-1">
+      <RouterView v-slot="{ Component }">
+        <Transition name="page-fade" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </RouterView>
     </main>
 
     <!-- 底部版权栏 -->
     <FooterBar />
   </div>
 </template>
+
+<style scoped>
+/* 页面路由过渡动画 */
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+</style>

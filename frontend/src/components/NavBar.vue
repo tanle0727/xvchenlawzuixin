@@ -60,8 +60,9 @@ const closeMobile = () => {
           class="md:hidden w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
           @click="toggleMobile"
           aria-label="菜单"
+          :aria-expanded="mobileMenuOpen"
         >
-          <svg class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path
               v-if="!mobileMenuOpen"
               stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"

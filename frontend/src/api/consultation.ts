@@ -1,13 +1,10 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { toast } from '@/utils/toast'
 
 const api = axios.create({
   baseURL: '/api',
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
-  // CSRF: 从 Django csrftoken cookie 中读取并附加到请求头
-  xsrfCookieName: 'csrftoken',
-  xsrfHeaderName: 'X-CSRFToken',
 })
 
 // ===== 响应拦截器：统一错误处理 =====
@@ -16,13 +13,13 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response?.status
     if (status === 429) {
-      ElMessage.warning('操作过于频繁，请稍后再试')
+      toast.warning('操作过于频繁，请稍后再试')
     } else if (status === 403) {
-      ElMessage.error('请求被拒绝，请刷新页面后重试')
+      toast.error('请求被拒绝，请刷新页面后重试')
     } else if (status >= 500) {
-      ElMessage.error('服务器异常，请稍后重试')
+      toast.error('服务器异常，请稍后重试')
     } else if (!error.response) {
-      ElMessage.error('网络连接失败，请检查网络')
+      toast.error('网络连接失败，请检查网络')
     }
     // 非 4xx 表单校验错误才弹出提示，4xx 业务错误由调用方自行处理
     return Promise.reject(error)

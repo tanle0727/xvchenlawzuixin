@@ -1,4 +1,5 @@
 import re
+from datetime import date
 from rest_framework import serializers
 from .models import CustomerConsultation, RepresentativeCase, ServiceClient, PracticeArea
 
@@ -61,6 +62,12 @@ class ConsultationCreateSerializer(serializers.ModelSerializer):
     def validate_case_category(self, value):
         if value not in VALID_CATEGORIES:
             raise serializers.ValidationError(f'无效的业务类型: {value}')
+        return value
+
+    def validate_appointment_date(self, value):
+        """拒绝过去的日期"""
+        if value and value < date.today():
+            raise serializers.ValidationError('预约日期不能早于今天')
         return value
 
     def create(self, validated_data):

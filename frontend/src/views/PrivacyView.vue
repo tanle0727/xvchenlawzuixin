@@ -1,21 +1,25 @@
 <script setup lang="ts">
 // 隐私保护政策页面 — 纯静态内容，无需数据请求
+// 导航栏和页脚由 App.vue 全局提供，本页仅渲染正文
 </script>
 
 <template>
-  <div class="min-h-screen bg-warm-100">
-    <!-- 顶部导航 -->
-    <nav class="bg-brand-950 text-white py-4 px-6">
-      <div class="max-w-4xl mx-auto flex items-center justify-between">
-        <router-link to="/" class="text-lg font-bold tracking-wide hover:text-gold-400 transition-colors">
-          ← 返回首页
-        </router-link>
-        <span class="text-sm text-brand-300">许宸律师团队</span>
-      </div>
-    </nav>
+  <div class="min-h-screen bg-warm-100 pt-24 lg:pt-28">
+    <!-- 返回链接 -->
+    <div class="max-w-4xl mx-auto px-6 mb-6">
+      <router-link
+        to="/"
+        class="inline-flex items-center gap-1.5 text-sm text-brand-500 hover:text-gold-500 transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        返回首页
+      </router-link>
+    </div>
 
     <!-- 正文区域 -->
-    <main class="max-w-4xl mx-auto px-6 py-12 lg:py-16">
+    <main class="max-w-4xl mx-auto px-6 pb-12 lg:pb-16">
       <article class="bg-white rounded-2xl shadow-sm border border-brand-200/50 p-8 lg:p-12 space-y-8 text-brand-800 leading-relaxed">
 
         <!-- 标题 -->
@@ -130,10 +134,5 @@
 
       </article>
     </main>
-
-    <!-- 底部 -->
-    <footer class="bg-brand-950 text-brand-400 text-center py-6 text-xs tracking-wide">
-      © 2026 北京恒都律师事务所 · 许宸律师团队
-    </footer>
   </div>
 </template>

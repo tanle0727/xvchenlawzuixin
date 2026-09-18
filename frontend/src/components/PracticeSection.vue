@@ -4,6 +4,7 @@ import { getPracticeAreas, type PracticeAreaGroup } from '@/api/consultation'
 
 const groups = ref<PracticeAreaGroup[]>([])
 const loadError = ref(false)
+const loading = ref(true)
 
 // 图标映射
 const icons: Record<string, string> = {
@@ -21,6 +22,8 @@ onMounted(async () => {
     groups.value = await getPracticeAreas()
   } catch {
     loadError.value = true
+  } finally {
+    loading.value = false
   }
 })
 </script>
@@ -42,8 +45,24 @@ onMounted(async () => {
         <div class="w-12 h-px bg-gold-500/50 mx-auto mt-6" />
       </div>
 
+      <!-- 加载骨架屏 -->
+      <div v-if="loading" class="grid lg:grid-cols-2 gap-8 lg:gap-10">
+        <div v-for="n in 2" :key="n" class="rounded-2xl border border-white/10 bg-white/5 p-8 lg:p-10 animate-pulse">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-11 h-11 rounded-xl bg-white/10" />
+            <div class="space-y-2">
+              <div class="h-5 w-24 bg-white/10 rounded" />
+              <div class="h-3 w-20 bg-white/5 rounded" />
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2.5">
+            <div v-for="m in 6" :key="m" class="h-9 w-20 bg-white/5 rounded-lg" />
+          </div>
+        </div>
+      </div>
+
       <!-- 加载失败提示 -->
-      <div v-if="loadError" class="text-center py-12">
+      <div v-else-if="loadError" class="text-center py-12">
         <p class="text-brand-400 text-sm">数据加载失败，请刷新页面重试</p>
       </div>
 
