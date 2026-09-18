@@ -94,11 +94,34 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+
+def _parse_database_url(url: str, base_dir: Path) -> dict:
+    """解析 DATABASE_URL 环境变量，支持 SQLite 和 PostgreSQL"""
+    if url.startswith('sqlite'):
+        db_name = url.replace('sqlite:///', '')
+        if not db_name.startswith('/'):
+            db_name = str(base_dir / db_name)
+        return {'ENGINE': 'django.db.backends.sqlite3', 'NAME': db_name}
+    elif url.startswith('postgresql') or url.startswith('postgres'):
+        from urllib.parse import urlparse
+        parsed = urlparse(url)
+        return {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': parsed.path.lstrip('/'),
+            'USER': parsed.username or '',
+            'Password': parsed.PASSWORD or '',
+            'HOST': parsed.hostname or 'localhost',
+            'PORT': str(parsed.port or 5432),
+        }
+    raise ValueError(f'不支持的数据库 URL: {url}')
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': config(
+        'DATABASE_URL',
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        cast=lambda url: _parse_database_url(url, BASE_DIR),
+    )
 }
 
 
@@ -146,17 +169,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+# Email — 开发环境使用 console 后端（邮件输出到终端）
+# 生产环境切换为 SMTP：'django.core.mail.backends.smtp.EmailBackend'
+# 并配置 EMAIL_HOST / EMAIL_PORT / EMAIL_HOST_USER / EMAIL_HOST_PASSWORD
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # ===== CORS 跨域配置 =====
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-]
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    default='http://localhost:5173,http://127.0.0.1:5173',
+    cast=Csv(),
+)
 
 # ===== Django REST Framework 配置 =====
 REST_FRAMEWORK = {
@@ -186,9 +209,9 @@ SIMPLEUI_ANALYSIS = False
 # 以下配置在所有环境下生效
 SECURE_BROWSER_XSS_FILTER = True          # 启用浏览器 XSS 过滤
 SECURE_CONTENT_TYPE_NOSNIFF = True        # 禁止浏览器 MIME 类型嗅探
-X_FRAME_OPTIONS = 'DENY'                  # 禁止任何网站 iframe 嵌入本页面
+X_FRAME_OPTIONS = 'SAMEORIGIN'             # 允许同源 iframe（SimpleUI 需要）
 SESSION_COOKIE_HTTPONLY = True             # JS 无法读取 Session Cookie
-CSRF_COOKIE_HTTPONLY = True                # JS 无法读取 CSRF Cookie
+CSRF_COOKIE_HTTPONLY = False               # SPA 前端需要读取 CSRF Cookie
 
 # 以下配置仅在 HTTPS 生产环境下生效（DEBUG=False 时启用）
 if not DEBUG:

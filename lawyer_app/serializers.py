@@ -1,5 +1,5 @@
 import re
-from datetime import date
+from django.utils import timezone
 from rest_framework import serializers
 from .models import CustomerConsultation, RepresentativeCase, ServiceClient, PracticeArea
 
@@ -31,7 +31,7 @@ class ConsultationCreateSerializer(serializers.ModelSerializer):
     def validate_website_url(self, value):
         """Honeypot：如果此字段被填写，说明是机器人提交"""
         if value:
-            raise serializers.ValidationError('检测到异常提交')
+            raise serializers.ValidationError('提交失败，请重试')
         return value
 
     def validate_name(self, value):
@@ -66,16 +66,13 @@ class ConsultationCreateSerializer(serializers.ModelSerializer):
 
     def validate_appointment_date(self, value):
         """拒绝过去的日期"""
-        if value and value < date.today():
+        if value and value < timezone.localdate():
             raise serializers.ValidationError('预约日期不能早于今天')
         return value
 
     def create(self, validated_data):
         # 移除 honeypot 字段，不存入数据库
         validated_data.pop('website_url', None)
-        # 默认值
-        validated_data.setdefault('status', '待确认')
-        validated_data.setdefault('source', '官网')
         return super().create(validated_data)
 
 

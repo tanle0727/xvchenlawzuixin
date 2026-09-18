@@ -23,6 +23,7 @@
 | 整体优化（依赖清理+体验增强） | ✅ 已完成 | 2026-09-19 |
 | 生产服务器部署（579云） | ✅ 已完成 | 2026-09-19 |
 | 移动端适配（前端+Admin后台） | ✅ 已完成 | 2026-09-19 |
+| P0 级问题全面修复（8项安全/架构缺陷） | ✅ 已完成 | 2026-09-19 |
 
 ---
 
@@ -324,6 +325,45 @@ systemctl restart lawyer_backend
 
 ---
 
+### ✅ 阶段十三：P0 级问题全面修复（2026-09-19）
+
+> 对前后端代码进行全面审计，发现并修复 8 项 P0 严重问题 + 10 项 P1 中等问题。
+
+#### P0 — 严重问题（全部已修复）
+
+| # | 问题 | 文件 | 修复方式 |
+|---|------|------|----------|
+| 1 | XSS 漏洞：toast.ts innerHTML 直接拼接 message | `frontend/src/utils/toast.ts` | SVG 用 createElementNS，message 用 textContent |
+| 2 | PII 泄露到日志：客户姓名写入 api.log | `lawyer_app/views.py` | 姓名→ID，错误详情→仅字段名+错误码 |
+| 3 | 邮件配置无效：MAILERS 字典非 Django 标准配置 | `mysite/settings.py` | 替换为标准 EMAIL_BACKEND |
+| 4 | 无 404 路由：未定义路径显示空白页 | `frontend/src/router/index.ts` | 添加 catch-all 路由 + 内联 404 页面 |
+| 5 | AboutView 占位页上线：损害专业形象 | `frontend/src/router/index.ts` | 移除 /about 路由，文件保留待后续填充 |
+| 6 | vueDevTools 生产环境未关闭 | `frontend/vite.config.ts` | 条件加载，仅 development 启用 |
+| 7 | SQLite 无生产切换机制 | `mysite/settings.py` + `.env.example` | DATABASE_URL 环境变量驱动，默认仍用 SQLite |
+| 8 | 手机号明文暴露：__str__ 返回完整号码 | `lawyer_app/models.py` | __str__ 脱敏显示；logo 改 null=True |
+
+#### P1 — 顺带修复的中等问题
+
+| # | 问题 | 修复方式 |
+|---|------|----------|
+| 1 | CSRF_COOKIE_HTTPONLY=True 阻止 SPA 读取 token | 改为 False |
+| 2 | X_FRAME_OPTIONS=DENY 破坏 SimpleUI iframe | 改为 SAMEORIGIN |
+| 3 | CORS 来源硬编码 localhost | 改为环境变量读取 |
+| 4 | date.today() 时区偏差 | 改为 timezone.localdate() |
+| 5 | Honeypot 错误消息暴露防机器人机制 | 改为通用提示"提交失败，请重试" |
+| 6 | serializer.create() 死代码 setdefault | 移除多余代码 |
+| 7 | Pinia 安装但从未使用 | 从 main.ts 移除，减少 ~2KB 包体积 |
+| 8 | PrivacyView 双重 `<main>` 标签违反 HTML 规范 | 内层改为 `<div>` |
+| 9 | AboutView 样式泄漏到其他页面 | 添加 scoped |
+| 10 | requirements.txt 缺生产依赖 | 添加 gunicorn/whitenoise/psycopg2-binary |
+
+#### 验证结果
+- [x] Django check 零问题
+- [x] 前后端服务正常启动，API 响应 200
+- [x] 所有改动向后兼容，开发环境无需额外操作
+
+---
+
 ## Git 提交历史
 
 ```
@@ -351,7 +391,7 @@ e72ced3 添加 agent.md 项目指南和 progress.md 进度表
 ### 🟡 中优先级（运维完善）
 - [ ] 配置 crontab 定时备份：`0 3 * * * /home/lawyer-site/backup.sh`（每日凌晨 3 点自动备份）
 - [ ] 接入 UptimeRobot 免费监控：监控 http://211.101.233.19:8080 可用性
-- [ ] SQLite → PostgreSQL：当前流量小可暂用，流量增大后需迁移
+- [ ] ~~SQLite → PostgreSQL~~：已通过 DATABASE_URL 环境变量预留切换入口，部署时设置即可
 
 ### 🟢 低优先级 / 二期功能
 - [ ] 诉求简述一键填入模板（按业务类型提供预设文案，用户点击后自动填充到输入框）

@@ -19,7 +19,7 @@
     </div>
 
     <!-- 正文区域 -->
-    <main class="max-w-4xl mx-auto px-6 pb-12 lg:pb-16">
+    <div class="max-w-4xl mx-auto px-6 pb-12 lg:pb-16">
       <article class="bg-white rounded-2xl shadow-sm border border-brand-200/50 p-5 lg:p-12 space-y-8 text-brand-800 leading-relaxed">
 
         <!-- 标题 -->
@@ -133,6 +133,6 @@
         </section>
 
       </article>
-    </main>
+    </div>
   </div>
 </template>

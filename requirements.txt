@@ -7,3 +7,8 @@ djangorestframework==3.18.0
 django-cors-headers==4.9.0
 python-decouple==3.8
 Pillow==12.3.0
+
+# 生产环境依赖（开发环境可不安装）
+gunicorn>=22.0          # WSGI 服务器
+whitenoise>=6.7         # 静态文件服务
+psycopg2-binary>=2.9    # PostgreSQL 驱动（使用 DATABASE_URL 时必需）

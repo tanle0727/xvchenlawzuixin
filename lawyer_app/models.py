@@ -87,7 +87,8 @@ class CustomerConsultation(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.name} - {self.phone} ({self.appointment_date})"
+        masked = self.phone[:3] + '****' + self.phone[7:] if len(self.phone) >= 11 else '****'
+        return f"{self.name} - {masked} ({self.appointment_date})"
 
 
 class RepresentativeCase(models.Model):
@@ -116,7 +117,7 @@ class ServiceClient(models.Model):
     """服务客户Logo墙表"""
 
     name = models.CharField("客户名称", max_length=100)
-    logo = models.ImageField("Logo图片", upload_to='logos/', blank=True, default='')
+    logo = models.ImageField("Logo图片", upload_to='logos/', blank=True, null=True)
     sort_order = models.IntegerField("排序优先级", default=0, help_text="数字越小越靠前")
     is_active = models.BooleanField("是否展示", default=True)
     created_at = models.DateTimeField("创建时间", auto_now_add=True)

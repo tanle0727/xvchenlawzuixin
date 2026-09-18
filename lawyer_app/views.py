@@ -28,13 +28,14 @@ def create_consultation(request):
     if serializer.is_valid():
         obj = serializer.save()
         ip = request.META.get('REMOTE_ADDR', 'unknown')
-        logger.info(f'预约提交成功 | IP={ip} | 姓名={obj.name} | 类型={obj.case_category}')
+        logger.info(f'预约提交成功 | IP={ip} | ID={obj.pk} | 类型={obj.case_category}')
         return Response(
             {'message': '提交成功，我们将尽快与您联系'},
             status=status.HTTP_201_CREATED,
         )
     ip = request.META.get('REMOTE_ADDR', 'unknown')
-    logger.warning(f'预约提交失败 | IP={ip} | 错误={serializer.errors}')
+    error_fields = {k: [e.code if hasattr(e, 'code') else type(e).__name__ for e in v] if isinstance(v, list) else str(type(v)) for k, v in serializer.errors.items()}
+    logger.warning(f'预约提交失败 | IP={ip} | 错误字段={error_fields}')
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

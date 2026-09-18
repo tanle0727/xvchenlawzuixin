@@ -1,0 +1,632 @@
+[
+{
+  "model": "lawyer_app.customerconsultation",
+  "pk": 1,
+  "fields": {
+    "name": "测试用户",
+    "position": "",
+    "company_name": "",
+    "phone": "13800138000",
+    "appointment_date": "2026-09-18",
+    "case_category": "公司法务",
+    "case_description": "测试提交",
+    "urgency_level": "紧急",
+    "status": "待确认",
+    "admin_remark": "",
+    "source": "官网",
+    "created_at": "2026-09-18T16:48:43.154Z",
+    "updated_at": "2026-09-18T16:48:43.154Z"
+  }
+},
+{
+  "model": "lawyer_app.customerconsultation",
+  "pk": 2,
+  "fields": {
+    "name": "测试用户",
+    "position": "",
+    "company_name": "",
+    "phone": "13800138000",
+    "appointment_date": "2026-09-18",
+    "case_category": "公司法务",
+    "case_description": "测试提交",
+    "urgency_level": "紧急",
+    "status": "待确认",
+    "admin_remark": "",
+    "source": "官网",
+    "created_at": "2026-09-18T16:48:48.282Z",
+    "updated_at": "2026-09-18T16:48:48.282Z"
+  }
+},
+{
+  "model": "lawyer_app.customerconsultation",
+  "pk": 3,
+  "fields": {
+    "name": "测试用户",
+    "position": "",
+    "company_name": "",
+    "phone": "13800138000",
+    "appointment_date": "2026-09-18",
+    "case_category": "公司法务",
+    "case_description": "测试提交",
+    "urgency_level": "紧急",
+    "status": "待确认",
+    "admin_remark": "",
+    "source": "官网",
+    "created_at": "2026-09-18T16:48:55.866Z",
+    "updated_at": "2026-09-18T16:48:55.866Z"
+  }
+},
+{
+  "model": "lawyer_app.customerconsultation",
+  "pk": 4,
+  "fields": {
+    "name": "坦乐",
+    "position": "",
+    "company_name": "",
+    "phone": "15097801284",
+    "appointment_date": "2026-09-18",
+    "case_category": "公司法务",
+    "case_description": "有大单",
+    "urgency_level": "紧急",
+    "status": "待确认",
+    "admin_remark": "企业名称：微博",
+    "source": "官网",
+    "created_at": "2026-09-18T16:51:25.993Z",
+    "updated_at": "2026-09-18T16:51:25.993Z"
+  }
+},
+{
+  "model": "lawyer_app.customerconsultation",
+  "pk": 5,
+  "fields": {
+    "name": "许宸",
+    "position": "",
+    "company_name": "",
+    "phone": "13803349348",
+    "appointment_date": "2026-09-18",
+    "case_category": "公司法务",
+    "case_description": "大单",
+    "urgency_level": "紧急",
+    "status": "待确认",
+    "admin_remark": "",
+    "source": "官网",
+    "created_at": "2026-09-18T16:54:21.966Z",
+    "updated_at": "2026-09-18T16:54:21.966Z"
+  }
+},
+{
+  "model": "lawyer_app.customerconsultation",
+  "pk": 6,
+  "fields": {
+    "name": "张三",
+    "position": "法务总监",
+    "company_name": "测试科技有限公司",
+    "phone": "13800138000",
+    "appointment_date": "2026-09-25",
+    "case_category": "公司治理",
+    "case_description": "需要公司治理方面的法律咨询",
+    "urgency_level": "紧急",
+    "status": "待确认",
+    "admin_remark": "",
+    "source": "官网",
+    "created_at": "2026-09-18T17:04:51.997Z",
+    "updated_at": "2026-09-18T17:04:51.997Z"
+  }
+},
+{
+  "model": "lawyer_app.representativecase",
+  "pk": 1,
+  "fields": {
+    "title": "金智维科技C轮融资",
+    "role": "领投方国开制造业基金及部分跟投方法律顾问",
+    "amount": "5亿元",
+    "description": "为珠海金智维信息科技有限公司5亿元人民币C轮融资提供全程法律服务",
+    "sort_order": 1,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.460Z",
+    "updated_at": "2026-09-18T17:19:28.460Z"
+  }
+},
+{
+  "model": "lawyer_app.representativecase",
+  "pk": 2,
+  "fields": {
+    "title": "思为科技C轮融资",
+    "role": "领投方招商局创投法律顾问",
+    "amount": "数亿元",
+    "description": "为深圳思为科技有限公司数亿元人民币的C轮融资提供全程法律服务",
+    "sort_order": 2,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.461Z",
+    "updated_at": "2026-09-18T17:19:28.461Z"
+  }
+},
+{
+  "model": "lawyer_app.representativecase",
+  "pk": 3,
+  "fields": {
+    "title": "深桑达子公司增资",
+    "role": "外部战略投资者国开制造业基金法律顾问",
+    "amount": "4亿元",
+    "description": "为深桑达下属全资子公司中电云认购全部4亿元人民币外部战略投资者增资额度提供全程法律服务",
+    "sort_order": 3,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.461Z",
+    "updated_at": "2026-09-18T17:19:28.461Z"
+  }
+},
+{
+  "model": "lawyer_app.representativecase",
+  "pk": 4,
+  "fields": {
+    "title": "中润化学融资项目",
+    "role": "领投方招商局资本法律顾问",
+    "amount": "超一亿元",
+    "description": "为重庆市中润化学有限公司完成超一亿元人民币的融资提供全程法律服务",
+    "sort_order": 4,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.462Z",
+    "updated_at": "2026-09-18T17:19:28.462Z"
+  }
+},
+{
+  "model": "lawyer_app.representativecase",
+  "pk": 5,
+  "fields": {
+    "title": "与睿创新首轮融资",
+    "role": "独家投资人远毅资本法律顾问",
+    "amount": "数千万元",
+    "description": "为与睿创新（苏州）医疗科技有限公司数千万元人民币的首轮融资提供全程法律服务",
+    "sort_order": 5,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.462Z",
+    "updated_at": "2026-09-18T17:19:28.462Z"
+  }
+},
+{
+  "model": "lawyer_app.representativecase",
+  "pk": 6,
+  "fields": {
+    "title": "微博",
+    "role": "常法",
+    "amount": "数百万",
+    "description": "坦乐贤内助",
+    "sort_order": 0,
+    "is_active": true,
+    "created_at": "2026-09-18T17:21:49.721Z",
+    "updated_at": "2026-09-18T17:21:49.721Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 1,
+  "fields": {
+    "name": "vivo",
+    "logo": "",
+    "sort_order": 1,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.462Z",
+    "updated_at": "2026-09-18T17:19:28.463Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 2,
+  "fields": {
+    "name": "招商局资本",
+    "logo": "",
+    "sort_order": 2,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.463Z",
+    "updated_at": "2026-09-18T17:19:28.463Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 3,
+  "fields": {
+    "name": "招商创投",
+    "logo": "",
+    "sort_order": 3,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.463Z",
+    "updated_at": "2026-09-18T17:19:28.463Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 4,
+  "fields": {
+    "name": "远毅资本",
+    "logo": "",
+    "sort_order": 4,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.464Z",
+    "updated_at": "2026-09-18T17:19:28.464Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 5,
+  "fields": {
+    "name": "蔚来汽车",
+    "logo": "",
+    "sort_order": 5,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.464Z",
+    "updated_at": "2026-09-18T17:19:28.464Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 6,
+  "fields": {
+    "name": "中国人寿",
+    "logo": "",
+    "sort_order": 6,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.464Z",
+    "updated_at": "2026-09-18T17:19:28.464Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 7,
+  "fields": {
+    "name": "大家资产",
+    "logo": "",
+    "sort_order": 7,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.465Z",
+    "updated_at": "2026-09-18T17:19:28.465Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 8,
+  "fields": {
+    "name": "盛世美天",
+    "logo": "",
+    "sort_order": 8,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.465Z",
+    "updated_at": "2026-09-18T17:19:28.465Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 9,
+  "fields": {
+    "name": "中意资产",
+    "logo": "",
+    "sort_order": 9,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.465Z",
+    "updated_at": "2026-09-18T17:19:28.465Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 10,
+  "fields": {
+    "name": "光大永明人寿",
+    "logo": "",
+    "sort_order": 10,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.467Z",
+    "updated_at": "2026-09-18T17:19:28.467Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 11,
+  "fields": {
+    "name": "中信信托",
+    "logo": "",
+    "sort_order": 11,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.467Z",
+    "updated_at": "2026-09-18T17:19:28.467Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 12,
+  "fields": {
+    "name": "新华保险",
+    "logo": "",
+    "sort_order": 12,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.468Z",
+    "updated_at": "2026-09-18T17:19:28.468Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 13,
+  "fields": {
+    "name": "阳光保险",
+    "logo": "",
+    "sort_order": 13,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.468Z",
+    "updated_at": "2026-09-18T17:19:28.468Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 14,
+  "fields": {
+    "name": "中信保诚",
+    "logo": "",
+    "sort_order": 14,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.468Z",
+    "updated_at": "2026-09-18T17:19:28.468Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 15,
+  "fields": {
+    "name": "招商信诺",
+    "logo": "",
+    "sort_order": 15,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.468Z",
+    "updated_at": "2026-09-18T17:19:28.468Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 16,
+  "fields": {
+    "name": "光大信托",
+    "logo": "",
+    "sort_order": 16,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.469Z",
+    "updated_at": "2026-09-18T17:19:28.469Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 17,
+  "fields": {
+    "name": "国开金融",
+    "logo": "",
+    "sort_order": 17,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.469Z",
+    "updated_at": "2026-09-18T17:19:28.469Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 18,
+  "fields": {
+    "name": "中保投资",
+    "logo": "",
+    "sort_order": 18,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.472Z",
+    "updated_at": "2026-09-18T17:19:28.472Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 19,
+  "fields": {
+    "name": "中金公司",
+    "logo": "",
+    "sort_order": 19,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.472Z",
+    "updated_at": "2026-09-18T17:19:28.472Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 20,
+  "fields": {
+    "name": "合众资产",
+    "logo": "",
+    "sort_order": 20,
+    "is_active": true,
+    "created_at": "2026-09-18T17:19:28.473Z",
+    "updated_at": "2026-09-18T17:19:28.473Z"
+  }
+},
+{
+  "model": "lawyer_app.serviceclient",
+  "pk": 21,
+  "fields": {
+    "name": "坦乐",
+    "logo": "logos/带头盔特写.png",
+    "sort_order": 0,
+    "is_active": true,
+    "created_at": "2026-09-18T17:22:29.624Z",
+    "updated_at": "2026-09-18T17:22:29.624Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 1,
+  "fields": {
+    "name": "公司治理",
+    "category": "non_litigation",
+    "sort_order": 1,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.541Z",
+    "updated_at": "2026-09-18T18:31:19.541Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 2,
+  "fields": {
+    "name": "私募股权投融资",
+    "category": "non_litigation",
+    "sort_order": 2,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.541Z",
+    "updated_at": "2026-09-18T18:31:19.541Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 3,
+  "fields": {
+    "name": "国资交易",
+    "category": "non_litigation",
+    "sort_order": 3,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.542Z",
+    "updated_at": "2026-09-18T18:31:19.542Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 4,
+  "fields": {
+    "name": "基金管理人募投管退全流程合规法律服务",
+    "category": "non_litigation",
+    "sort_order": 4,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.542Z",
+    "updated_at": "2026-09-18T18:31:19.542Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 5,
+  "fields": {
+    "name": "交易架构设计",
+    "category": "non_litigation",
+    "sort_order": 5,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.542Z",
+    "updated_at": "2026-09-18T18:31:19.542Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 6,
+  "fields": {
+    "name": "保险资管",
+    "category": "non_litigation",
+    "sort_order": 6,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.543Z",
+    "updated_at": "2026-09-18T18:31:19.543Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 7,
+  "fields": {
+    "name": "合同纠纷",
+    "category": "litigation",
+    "sort_order": 1,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.543Z",
+    "updated_at": "2026-09-18T18:31:19.543Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 8,
+  "fields": {
+    "name": "侵权纠纷",
+    "category": "litigation",
+    "sort_order": 2,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.544Z",
+    "updated_at": "2026-09-18T18:31:19.544Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 9,
+  "fields": {
+    "name": "劳动争议",
+    "category": "litigation",
+    "sort_order": 3,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.544Z",
+    "updated_at": "2026-09-18T18:31:19.544Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 10,
+  "fields": {
+    "name": "公司股权纠纷",
+    "category": "litigation",
+    "sort_order": 4,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.544Z",
+    "updated_at": "2026-09-18T18:31:19.544Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 11,
+  "fields": {
+    "name": "金融借款纠纷",
+    "category": "litigation",
+    "sort_order": 5,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.544Z",
+    "updated_at": "2026-09-18T18:31:19.544Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 12,
+  "fields": {
+    "name": "建设工程纠纷",
+    "category": "litigation",
+    "sort_order": 6,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.545Z",
+    "updated_at": "2026-09-18T18:31:19.545Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 13,
+  "fields": {
+    "name": "知识产权纠纷",
+    "category": "litigation",
+    "sort_order": 7,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.545Z",
+    "updated_at": "2026-09-18T18:31:19.545Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 14,
+  "fields": {
+    "name": "不正当竞争纠纷",
+    "category": "litigation",
+    "sort_order": 8,
+    "is_active": true,
+    "created_at": "2026-09-18T18:31:19.545Z",
+    "updated_at": "2026-09-18T18:31:19.545Z"
+  }
+},
+{
+  "model": "lawyer_app.practicearea",
+  "pk": 15,
+  "fields": {
+    "name": "夸夸机器人",
+    "category": "non_litigation",
+    "sort_order": 0,
+    "is_active": true,
+    "created_at": "2026-09-18T18:37:37.063Z",
+    "updated_at": "2026-09-18T18:37:37.063Z"
+  }
+}
+]

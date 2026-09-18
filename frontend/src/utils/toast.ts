@@ -55,7 +55,20 @@ function show(options: ToastOptions): void {
 
   const el = document.createElement('div')
   el.className = `pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-xl border shadow-lg text-sm font-medium transition-all duration-300 opacity-0 translate-y-[-8px] ${TYPE_STYLES[type]}`
-  el.innerHTML = `<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">${TYPE_ICONS[type]}</svg><span>${message}</span>`
+
+  // SVG 图标使用 innerHTML（硬编码可信内容），message 使用 textContent 防止 XSS
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  svg.setAttribute('class', 'w-4 h-4 shrink-0')
+  svg.setAttribute('fill', 'none')
+  svg.setAttribute('stroke', 'currentColor')
+  svg.setAttribute('viewBox', '0 0 24 24')
+  svg.innerHTML = TYPE_ICONS[type]
+
+  const span = document.createElement('span')
+  span.textContent = message
+
+  el.appendChild(svg)
+  el.appendChild(span)
 
   root.appendChild(el)
 
