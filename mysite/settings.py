@@ -13,6 +13,21 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 from pathlib import Path
 from decouple import config, Csv
 
+# ===== Django 6.1 + SimpleUI 兼容性补丁 =====
+# Django 6.1 引入了 ActionLocation 枚举，SimpleUI 序列化时无法处理
+# 通过 monkey-patch json.JSONEncoder.default 使其支持 Enum 序列化
+import json
+import enum
+
+_original_encoder_default = json.JSONEncoder.default
+
+def _patched_encoder_default(self, o):
+    if isinstance(o, enum.Enum):
+        return o.value
+    return _original_encoder_default(self, o)
+
+json.JSONEncoder.default = _patched_encoder_default
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
